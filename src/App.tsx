@@ -1,6 +1,7 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+import { GradientText } from "./components/GradientText";
+import logo from "./logo.svg";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           Learn React
         </a>
       </header>
+      <GradientText text="Bonjour" />
     </div>
   );
 }
