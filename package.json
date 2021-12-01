@@ -15,18 +15,32 @@
     "@types/node": "^12.0.0",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
+    "body-parser": "^1.19.0",
+    "compression": "^1.7.4",
+    "concurrently": "^6.4.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "helmet": "^4.6.0",
+    "knex": "^0.95.14",
     "luxon": "^2.1.1",
+    "nodemon": "^2.0.15",
+    "path": "^0.12.7",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
+    "sqlite3": "^5.0.2",
     "typescript": "^4.1.2",
     "web-vitals": "^1.0.1"
   },
+  "proxy": "http://localhost:4001",
   "scripts": {
-    "start": "craco start",
-    "build": "craco build",
+    "build": "node ./buildScript",
+    "build-front": "craco build",
+    "start-front": "craco start",
+    "start-server": "nodemon server/server.js --watch server/*",
     "test": "craco test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "start": "concurrently \"npm run start-server\" \"npm run start-front\" --kill-others --kill-others-on-fail"
   },
   "eslintConfig": {
     "extends": [
