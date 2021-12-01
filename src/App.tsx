@@ -1,5 +1,6 @@
 import React from "react";
 import "./App.css";
+import Character from "./components/Character";
 import { GradientText } from "./components/GradientText";
 import logo from "./logo.svg";
 
@@ -21,6 +22,7 @@ function App() {
         </a>
       </header>
       <GradientText text="Bonjour" />
+      <Character />
     </div>
   );
 }
