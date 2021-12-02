@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 
 type CharacterProps = {
   id: number;
+  name: string;
   rank: number;
   skill_pts: number;
   health: number;
@@ -12,15 +13,8 @@ type CharacterProps = {
 
 const Character = () => {
   const [characters, setCharacters] = useState([]);
-
-  useEffect(() => {
-    fetchCharacters();
-  }, []);
-
   const fetchCharacters = async () => {
-    fetch("http://localhost:4001/characters/all", {
-      mode: "no-cors",
-    })
+    fetch("/characters/all")
       .then((response) => {
         if (response.ok) return response.json();
         throw response;
@@ -35,15 +29,44 @@ const Character = () => {
       );
   };
 
+  useEffect(() => {
+    fetchCharacters();
+  }, []);
+
   return (
     <>
       <div>Coincoin</div>
       {characters.length > 0 &&
-        characters.map((character: CharacterProps) => (
-          <div>{character.id}</div>
-        ))}
+        characters.map(
+          ({
+            id,
+            name,
+            rank,
+            health,
+            attack,
+            defense,
+            magik,
+          }: CharacterProps) => (
+            <div key={id} className="flex flex-row justify-center">
+              <div style={styles.item}>{`id: ${id}`}</div>
+              <div style={styles.item}>{`name: ${name}`}</div>
+              <div style={styles.item}>{`rank: ${rank}`}</div>
+              <div style={styles.item}>{`health: ${health}`}</div>
+              <div style={styles.item}>{`attack: ${attack}`}</div>
+              <div style={styles.item}>{`defense: ${defense}`}</div>
+              <div style={styles.item}>{`magik: ${magik}`}</div>
+            </div>
+          )
+        )}
     </>
   );
+};
+
+const styles = {
+  item: {
+    // flex: 1,
+    margin: 8,
+  },
 };
 
 export default Character;
