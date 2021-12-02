@@ -35,22 +35,6 @@ knex.schema
     }
   })
   .then(() => {
-    knex("characters")
-      .insert({
-        name: "test",
-        rank: 1,
-        skill_pts: 12,
-        health: 10,
-        max_health: 10,
-        attack: 0,
-        defense: 0,
-        magik: 0,
-      })
-      .then(() => {
-        console.log(`Character created`);
-      });
-  })
-  .then(() => {
     console.log("done");
   })
   .catch((error) => {
