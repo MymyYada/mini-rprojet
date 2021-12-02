@@ -1,3 +1,4 @@
+import { DateTime } from "luxon";
 import React, { useEffect, useState } from "react";
 
 type CharacterProps = {
@@ -9,6 +10,8 @@ type CharacterProps = {
   attack: number;
   defense: number;
   magik: number;
+  available: boolean;
+  lastFight: DateTime;
 };
 
 const Character = () => {
@@ -46,6 +49,8 @@ const Character = () => {
             attack,
             defense,
             magik,
+            available = true,
+            lastFight = DateTime.now(),
           }: CharacterProps) => (
             <div key={id} className="flex flex-row justify-center">
               <div style={styles.item}>{`id: ${id}`}</div>
@@ -55,6 +60,10 @@ const Character = () => {
               <div style={styles.item}>{`attack: ${attack}`}</div>
               <div style={styles.item}>{`defense: ${defense}`}</div>
               <div style={styles.item}>{`magik: ${magik}`}</div>
+              <div style={styles.item}>{`available: ${available}`}</div>
+              <div style={styles.item}>{`lastFight: ${lastFight.toLocaleString(
+                DateTime.DATE_SHORT
+              )}`}</div>
             </div>
           )
         )}
