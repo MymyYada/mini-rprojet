@@ -36,8 +36,15 @@ export type CharacterResponse = {
   magik: number;
 };
 
+export enum StatType {
+  health,
+  attack,
+  defense,
+  magik,
+}
+
 type Stat = {
   value: number;
   max_value?: number;
-  type: "health" | "attack" | "defense" | "magik";
+  type: StatType;
 };
