@@ -50,19 +50,3 @@ exports.charactersDelete = async (req, res) => {
       });
     });
 };
-
-exports.charactersReset = async (req, res) => {
-  // Remove all characters from database
-  knex
-    .select("*")
-    .from("characters")
-    .truncate()
-    .then(() => {
-      res.json({ message: "Character list cleared." });
-    })
-    .catch((err) => {
-      res.json({
-        message: `There was an error resetting character list: ${err}.`,
-      });
-    });
-};

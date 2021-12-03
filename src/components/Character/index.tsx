@@ -1,6 +1,12 @@
 import { DateTime } from "luxon";
 import React, { useEffect, useState } from "react";
-import { CharacterProps, CharacterRequest, CharacterResponse } from "./types";
+import CharacterItem from "./CharacterItem";
+import {
+  CharacterProps,
+  CharacterRequest,
+  CharacterResponse,
+  StatType,
+} from "./types";
 
 const Character = () => {
   const [characters, setCharacters] = useState([]);
@@ -19,11 +25,11 @@ const Character = () => {
             health: {
               value: stats.health,
               max_value: stats.max_health,
-              type: "health",
+              type: StatType.health,
             },
-            attack: { value: stats.attack, type: "attack" },
-            defense: { value: stats.defense, type: "defense" },
-            magik: { value: stats.magik, type: "magik" },
+            attack: { value: stats.attack, type: StatType.attack },
+            defense: { value: stats.defense, type: StatType.defense },
+            magik: { value: stats.magik, type: StatType.magik },
             available: true,
             lastFight: DateTime.now(),
           };
@@ -64,54 +70,43 @@ const Character = () => {
         console.error(`There was an error creating the character: ${error}`)
       );
   };
+  const removeCharacter = (id: CharacterProps["id"]) => {
+    const settings = {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id }),
+    };
+    fetch("/characters/delete", settings)
+      .then((res) => {
+        console.log(res);
+        getAllCharacters();
+      })
+      .catch((error) =>
+        console.error(`There was an error removing the character: ${error}`)
+      );
+  };
 
   useEffect(() => {
     getAllCharacters();
   }, []);
 
   return (
-    <>
+    <div>
       <div>Personnages</div>
       {characters.length > 0 &&
-        characters.map(
-          ({
-            id,
-            name,
-            rank,
-            health,
-            attack,
-            defense,
-            magik,
-            available,
-            lastFight,
-          }: CharacterProps) => (
-            <div key={id} className="flex flex-row justify-center">
-              <div style={styles.item}>{`id: ${id}`}</div>
-              <div style={styles.item}>{`name: ${name}`}</div>
-              <div style={styles.item}>{`rank: ${rank}`}</div>
-              <div style={styles.item}>
-                {`health: ${health.value}/${health.max_value}`}
-              </div>
-              <div style={styles.item}>{`attack: ${attack.value}`}</div>
-              <div style={styles.item}>{`defense: ${defense.value}`}</div>
-              <div style={styles.item}>{`magik: ${magik.value}`}</div>
-              <div style={styles.item}>{`available: ${available}`}</div>
-              <div style={styles.item}>{`lastFight: ${lastFight.toLocaleString(
-                DateTime.DATE_SHORT
-              )}`}</div>
-            </div>
-          )
-        )}
+        characters.map((character: CharacterProps) => (
+          <CharacterItem
+            key={character.id}
+            {...character}
+            onDelete={() => removeCharacter(character.id)}
+          />
+        ))}
       <button onClick={() => addCharacter({ name: "Bob" })}>Ajouter</button>
-    </>
+    </div>
   );
-};
-
-const styles = {
-  item: {
-    // flex: 1,
-    margin: 8,
-  },
 };
 
 export default Character;
