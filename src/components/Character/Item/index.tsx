@@ -8,13 +8,14 @@ const CharacterItem = ({
   ...characterProps
 }: CharacterProps & { onDelete: () => void }) => {
   const [character, setCharacter] = useState({ ...characterProps });
-  const [maxSpent] = useState(character.skill_pts);
+  const characterTemp = { ...characterProps };
   const onChange = ({ stat, cost }: ChangeProps) => {
-    const skill_pts = character.skill_pts - cost;
-    if (0 <= skill_pts && skill_pts <= maxSpent)
+    const newSkillPts = character.skill_pts - cost;
+    const minStatValue = characterTemp[stat.type].value;
+    if (newSkillPts >= 0 && stat.value >= minStatValue)
       setCharacter({
         ...character,
-        skill_pts,
+        skill_pts: newSkillPts,
         [stat.type]: stat,
       });
   };
