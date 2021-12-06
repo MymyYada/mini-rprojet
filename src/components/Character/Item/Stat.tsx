@@ -1,3 +1,4 @@
+import { costCalc } from "../../../app/utils";
 import { ChangeProps, StatProps } from "../types";
 
 const Stat = ({
@@ -14,7 +15,7 @@ const Stat = ({
         value: stat.value + alt,
         max_value: stat.max_value && stat.max_value + alt,
       },
-      cost: alt,
+      cost: costCalc(stat, alt),
     });
   };
 
