@@ -1,6 +1,6 @@
 import { DateTime } from "luxon";
 import React, { useEffect, useState } from "react";
-import CharacterItem from "./CharacterItem";
+import CharacterItem from "./Item";
 import {
   CharacterProps,
   CharacterRequest,

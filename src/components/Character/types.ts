@@ -5,10 +5,10 @@ export type CharacterProps = {
   name: string;
   rank: number;
   skill_pts: number;
-  health: Stat;
-  attack: Stat;
-  defense: Stat;
-  magik: Stat;
+  health: StatProps;
+  attack: StatProps;
+  defense: StatProps;
+  magik: StatProps;
   available: boolean;
   lastFight: DateTime;
 };
@@ -37,14 +37,19 @@ export type CharacterResponse = {
 };
 
 export enum StatType {
-  health,
-  attack,
-  defense,
-  magik,
+  health = "health",
+  attack = "attack",
+  defense = "defense",
+  magik = "magik",
 }
 
-type Stat = {
+export type StatProps = {
   value: number;
   max_value?: number;
   type: StatType;
+};
+
+export type ChangeProps = {
+  stat: StatProps;
+  cost: number;
 };
