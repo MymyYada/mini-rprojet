@@ -17,23 +17,26 @@ const Character = () => {
         throw response;
       })
       .then((data) => {
-        data = data.map(({ id, name, rank, ...stats }: CharacterResponse) => {
-          return {
-            id,
-            name,
-            rank,
-            health: {
-              value: stats.health,
-              max_value: stats.max_health,
-              type: StatType.health,
-            },
-            attack: { value: stats.attack, type: StatType.attack },
-            defense: { value: stats.defense, type: StatType.defense },
-            magik: { value: stats.magik, type: StatType.magik },
-            available: true,
-            lastFight: DateTime.now(),
-          };
-        });
+        data = data.map(
+          ({ id, name, rank, skill_pts, ...stats }: CharacterResponse) => {
+            return {
+              id,
+              name,
+              rank,
+              skill_pts,
+              health: {
+                value: stats.health,
+                max_value: stats.max_health,
+                type: StatType.health,
+              },
+              attack: { value: stats.attack, type: StatType.attack },
+              defense: { value: stats.defense, type: StatType.defense },
+              magik: { value: stats.magik, type: StatType.magik },
+              available: true,
+              lastFight: DateTime.now(),
+            };
+          }
+        );
         console.log(data);
         setCharacters(data);
       })
