@@ -1,34 +1,31 @@
 import React from "react";
+import { useAppContext } from "../../app/AppContext";
 import CharacterItem from "./Item";
-import { CharacterProps, CharacterRequest } from "./types";
+import { CharacterProps } from "./types";
 
 const Character = ({
-  characters,
-  addCharacter,
-  updateCharacter,
-  removeCharacter,
   attackerCallback,
 }: {
-  characters: CharacterProps[];
-  addCharacter: (character: CharacterRequest) => void;
-  updateCharacter: (character: CharacterProps) => void;
-  removeCharacter: (id: CharacterProps["id"]) => void;
   attackerCallback: (character: CharacterProps) => void;
 }) => {
+  const context = useAppContext();
+
   return (
     <div>
       <div>Personnages</div>
-      {characters.length > 0 &&
-        characters.map((character: CharacterProps) => (
+      {context.characters.length > 0 &&
+        context.characters.map((character: CharacterProps) => (
           <CharacterItem
             key={character.id}
             {...character}
-            onUpdate={updateCharacter}
-            onDelete={() => removeCharacter(character.id)}
+            onUpdate={context.updateCharacter}
+            onDelete={() => context.removeCharacter(character.id)}
             attackerCallback={attackerCallback}
           />
         ))}
-      <button onClick={() => addCharacter({ name: "Bob" })}>Ajouter</button>
+      <button onClick={() => context.addCharacter({ name: "Bob" })}>
+        Ajouter
+      </button>
     </div>
   );
 };
