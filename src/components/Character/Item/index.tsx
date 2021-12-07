@@ -1,5 +1,6 @@
 import { DateTime } from "luxon";
 import { useState } from "react";
+import { rollADie } from "../../../app/utils";
 import { ChangeProps, CharacterProps } from "../types";
 import Stat from "./Stat";
 
@@ -40,6 +41,12 @@ const CharacterItem = ({
         </div>
         <button className="mx-4" onClick={onDelete}>
           Supprimer
+        </button>
+        <button
+          className="mx-4"
+          onClick={() => rollADie(character.attack.value)}
+        >
+          Lancer un dé (test)
         </button>
       </div>
 
