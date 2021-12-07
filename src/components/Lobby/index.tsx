@@ -1,21 +1,22 @@
+import { findOpponent } from "../../app/utils";
 import { CharacterProps } from "../Character/types";
 import FighterItem from "./FighterItem";
 import Modal from "./Modal";
 
 const Lobby = ({
+  characters,
   attacker,
-  opponent,
 }: {
+  characters: CharacterProps[];
   attacker: CharacterProps;
-  opponent: CharacterProps;
 }) => {
   return (
     <div>
       <div className="flex">
         <FighterItem {...attacker} />
-        <FighterItem {...opponent} />
+        <FighterItem {...findOpponent(attacker, characters)} />
       </div>
-      <Modal />
+      <Modal {...attacker} />
     </div>
   );
 };

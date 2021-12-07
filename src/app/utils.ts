@@ -1,4 +1,8 @@
-import { StatProps, StatType } from "../components/Character/types";
+import {
+  CharacterProps,
+  StatProps,
+  StatType,
+} from "../components/Character/types";
 
 export const costCalc = (stat: StatProps, alt: number) => {
   if (stat.type !== StatType.health) {
@@ -12,11 +16,28 @@ export const costCalc = (stat: StatProps, alt: number) => {
   return alt;
 };
 
+const randBetween = ({ min = 0, max }: { min?: number; max: number }) => {
+  return Math.floor(Math.random() * max) + min;
+};
+
 export const rollADie = (nbFace: number) => {
   if (nbFace === 0) return 0;
-  const res = Math.floor(Math.random() * nbFace) + 1;
+  const res = randBetween({ min: 1, max: nbFace });
 
   console.log(`Roll 1D${nbFace}. Result: ${res}`);
 
   return res;
+};
+
+export const findOpponent = (
+  attacker: CharacterProps,
+  characters: CharacterProps[]
+) => {
+  const opponents = characters.filter(
+    (char: CharacterProps) => char.id !== attacker.id && char.available
+  );
+
+  console.log(opponents);
+
+  return opponents[randBetween({ max: opponents.length })];
 };
