@@ -36,6 +36,30 @@ exports.charactersCreate = async (req, res) => {
     });
 };
 
+exports.charactersUpdate = async (req, res) => {
+  // Add new character to database
+  knex("characters")
+    .where("id", req.body.id)
+    .update({
+      name: req.body.name,
+      rank: req.body.rank,
+      skill_pts: req.body.skill_pts,
+      health: req.body.health,
+      max_health: req.body.max_health,
+      attack: req.body.attack,
+      defense: req.body.defense,
+      magik: req.body.magik,
+    })
+    .then(() => {
+      res.json({ message: `Character ${req.body.id} update.` });
+    })
+    .catch((err) => {
+      res.json({
+        message: `There was an error updating ${req.body.id} character: ${err}`,
+      });
+    });
+};
+
 exports.charactersDelete = async (req, res) => {
   // Find specific character in the database and remove it
   knex("characters")

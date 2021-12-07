@@ -1,6 +1,6 @@
 import { DateTime } from "luxon";
 import React, { useEffect, useState } from "react";
-import CharacterItem from "./CharacterItem";
+import CharacterItem from "./Item";
 import {
   CharacterProps,
   CharacterRequest,
@@ -17,23 +17,26 @@ const Character = () => {
         throw response;
       })
       .then((data) => {
-        data = data.map(({ id, name, rank, ...stats }: CharacterResponse) => {
-          return {
-            id,
-            name,
-            rank,
-            health: {
-              value: stats.health,
-              max_value: stats.max_health,
-              type: StatType.health,
-            },
-            attack: { value: stats.attack, type: StatType.attack },
-            defense: { value: stats.defense, type: StatType.defense },
-            magik: { value: stats.magik, type: StatType.magik },
-            available: true,
-            lastFight: DateTime.now(),
-          };
-        });
+        data = data.map(
+          ({ id, name, rank, skill_pts, ...stats }: CharacterResponse) => {
+            return {
+              id,
+              name,
+              rank,
+              skill_pts,
+              health: {
+                value: stats.health,
+                max_value: stats.max_health,
+                type: StatType.health,
+              },
+              attack: { value: stats.attack, type: StatType.attack },
+              defense: { value: stats.defense, type: StatType.defense },
+              magik: { value: stats.magik, type: StatType.magik },
+              available: true,
+              lastFight: DateTime.now(),
+            };
+          }
+        );
         console.log(data);
         setCharacters(data);
       })
@@ -70,6 +73,31 @@ const Character = () => {
         console.error(`There was an error creating the character: ${error}`)
       );
   };
+  const updateCharacter = (character: CharacterProps) => {
+    const settings = {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ...character,
+        health: character.health.value,
+        max_health: character.health.max_value,
+        attack: character.attack.value,
+        defense: character.defense.value,
+        magik: character.magik.value,
+      }),
+    };
+    fetch("/characters/update", settings)
+      .then((res) => {
+        console.log(res);
+        getAllCharacters();
+      })
+      .catch((error) =>
+        console.error(`There was an error updating the character: ${error}`)
+      );
+  };
   const removeCharacter = (id: CharacterProps["id"]) => {
     const settings = {
       method: "PUT",
@@ -101,6 +129,7 @@ const Character = () => {
           <CharacterItem
             key={character.id}
             {...character}
+            onUpdate={updateCharacter}
             onDelete={() => removeCharacter(character.id)}
           />
         ))}
