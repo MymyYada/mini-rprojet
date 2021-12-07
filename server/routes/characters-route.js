@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get("/all", charactersRoutes.charactersAll);
 router.post("/create", charactersRoutes.charactersCreate);
-router.put("/delete", charactersRoutes.charactersDelete);
 router.post("/update", charactersRoutes.charactersUpdate);
+router.put("/delete", charactersRoutes.charactersDelete);
 
 module.exports = router;

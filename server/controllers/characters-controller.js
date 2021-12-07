@@ -36,21 +36,6 @@ exports.charactersCreate = async (req, res) => {
     });
 };
 
-exports.charactersDelete = async (req, res) => {
-  // Find specific character in the database and remove it
-  knex("characters")
-    .where("id", req.body.id)
-    .del()
-    .then(() => {
-      res.json({ message: `Character ${req.body.id} deleted.` });
-    })
-    .catch((err) => {
-      res.json({
-        message: `There was an error deleting ${req.body.id} character: ${err}`,
-      });
-    });
-};
-
 exports.charactersUpdate = async (req, res) => {
   // Add new character to database
   knex("characters")
@@ -71,6 +56,21 @@ exports.charactersUpdate = async (req, res) => {
     .catch((err) => {
       res.json({
         message: `There was an error updating ${req.body.id} character: ${err}`,
+      });
+    });
+};
+
+exports.charactersDelete = async (req, res) => {
+  // Find specific character in the database and remove it
+  knex("characters")
+    .where("id", req.body.id)
+    .del()
+    .then(() => {
+      res.json({ message: `Character ${req.body.id} deleted.` });
+    })
+    .catch((err) => {
+      res.json({
+        message: `There was an error deleting ${req.body.id} character: ${err}`,
       });
     });
 };

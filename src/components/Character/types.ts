@@ -50,6 +50,6 @@ export type StatProps = {
 };
 
 export type ChangeProps = {
-  stat: StatProps;
+  newStat: StatProps;
   cost: number;
 };

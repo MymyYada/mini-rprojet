@@ -4,46 +4,25 @@ import { ChangeProps, CharacterProps } from "../types";
 import Stat from "./Stat";
 
 const CharacterItem = ({
+  onUpdate,
   onDelete,
   ...characterProps
-}: CharacterProps & { onDelete: () => void }) => {
+}: CharacterProps & {
+  onUpdate: (character: CharacterProps) => void;
+  onDelete: () => void;
+}) => {
   const [character, setCharacter] = useState({ ...characterProps });
   const [characterTemp, setCharacterTemp] = useState({ ...characterProps });
-  const onChange = ({ stat, cost }: ChangeProps) => {
+  const changeCallback = ({ newStat, cost }: ChangeProps) => {
     const newSkillPts = character.skill_pts - cost;
-    const minStatValue = characterTemp[stat.type].value;
+    const minStat = characterTemp[newStat.type];
 
-    if (newSkillPts >= 0 && stat.value >= minStatValue)
+    if (newSkillPts >= 0 && newStat.value >= minStat.value)
       setCharacter({
         ...character,
         skill_pts: newSkillPts,
-        [stat.type]: stat,
+        [newStat.type]: newStat,
       });
-  };
-  const updateCharacter = (character: CharacterProps) => {
-    const settings = {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        ...character,
-        health: character.health.value,
-        max_health: character.health.max_value,
-        attack: character.attack.value,
-        defense: character.defense.value,
-        magik: character.magik.value,
-      }),
-    };
-    fetch("/characters/update", settings)
-      .then((res) => {
-        console.log(res);
-        // getAllCharacters();
-      })
-      .catch((error) =>
-        console.error(`There was an error updating the character: ${error}`)
-      );
   };
 
   return (
@@ -65,14 +44,14 @@ const CharacterItem = ({
       </div>
 
       <div>
-        <Stat stat={character.health} onChange={onChange} />
-        <Stat stat={character.attack} onChange={onChange} />
-        <Stat stat={character.defense} onChange={onChange} />
-        <Stat stat={character.magik} onChange={onChange} />
+        <Stat stat={character.health} changeCallback={changeCallback} />
+        <Stat stat={character.attack} changeCallback={changeCallback} />
+        <Stat stat={character.defense} changeCallback={changeCallback} />
+        <Stat stat={character.magik} changeCallback={changeCallback} />
       </div>
       <button
         onClick={() => {
-          updateCharacter(character);
+          onUpdate(character);
           setCharacterTemp(character);
         }}
       >
