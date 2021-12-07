@@ -17,10 +17,8 @@ const Character = ({
         context.characters.map((character: CharacterProps) => (
           <CharacterItem
             key={character.id}
-            {...character}
-            onUpdate={context.updateCharacter}
-            onDelete={() => context.removeCharacter(character.id)}
             attackerCallback={attackerCallback}
+            {...character}
           />
         ))}
       <button onClick={() => context.addCharacter({ name: "Bob" })}>

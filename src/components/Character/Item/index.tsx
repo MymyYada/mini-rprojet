@@ -1,18 +1,16 @@
 import { DateTime } from "luxon";
 import { useState } from "react";
+import { useAppContext } from "../../../app/AppContext";
 import { ChangeProps, CharacterProps } from "../types";
 import Stat from "./Stat";
 
 const CharacterItem = ({
-  onUpdate,
-  onDelete,
   attackerCallback,
   ...characterProps
 }: CharacterProps & {
-  onUpdate: (character: CharacterProps) => void;
-  onDelete: () => void;
   attackerCallback: (character: CharacterProps) => void;
 }) => {
+  const context = useAppContext();
   const [character, setCharacter] = useState({ ...characterProps });
   const [characterTemp, setCharacterTemp] = useState({ ...characterProps });
   const changeCallback = ({ newStat, cost }: ChangeProps) => {
@@ -40,7 +38,10 @@ const CharacterItem = ({
             DateTime.DATE_SHORT
           )}`}
         </div>
-        <button className="mx-4" onClick={onDelete}>
+        <button
+          className="mx-4"
+          onClick={() => context.removeCharacter(character.id)}
+        >
           Supprimer
         </button>
         <button className="mx-4" onClick={() => attackerCallback(character)}>
@@ -56,7 +57,7 @@ const CharacterItem = ({
       </div>
       <button
         onClick={() => {
-          onUpdate(character);
+          context.updateCharacter(character);
           setCharacterTemp(character);
         }}
       >
