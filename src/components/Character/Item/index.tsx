@@ -33,31 +33,42 @@ const CharacterItem = ({ ...characterProps }: CharacterProps) => {
             DateTime.DATE_SHORT
           )}`}
         </div>
-        <button
-          className="mx-4"
-          onClick={() => context.removeCharacter(character.id)}
-        >
-          Supprimer
-        </button>
-        <button className="mx-4" onClick={() => context.setAttacker(character)}>
-          Combattre
-        </button>
       </div>
 
-      <div>
-        <Stat stat={character.health} changeCallback={changeCallback} />
-        <Stat stat={character.attack} changeCallback={changeCallback} />
-        <Stat stat={character.defense} changeCallback={changeCallback} />
-        <Stat stat={character.magik} changeCallback={changeCallback} />
+      <div className="flex flex-row justify-center">
+        <div>
+          <Stat stat={character.health} changeCallback={changeCallback} />
+          <Stat stat={character.attack} changeCallback={changeCallback} />
+          <Stat stat={character.defense} changeCallback={changeCallback} />
+          <Stat stat={character.magik} changeCallback={changeCallback} />
+        </div>
+
+        <div className="flex flex-col ml-24">
+          {character.skill_pts !== characterTemp.skill_pts && (
+            <button
+              className="mx-4 my-2"
+              onClick={() => {
+                context.updateCharacter(character);
+                setCharacterTemp(character);
+              }}
+            >
+              Update
+            </button>
+          )}
+          <button
+            className="mx-4 my-2"
+            onClick={() => context.setAttacker(character)}
+          >
+            Combattre
+          </button>
+          <button
+            className="mx-4 my-2"
+            onClick={() => context.removeCharacter(character.id)}
+          >
+            Supprimer
+          </button>
+        </div>
       </div>
-      <button
-        onClick={() => {
-          context.updateCharacter(character);
-          setCharacterTemp(character);
-        }}
-      >
-        update
-      </button>
     </div>
   );
 };

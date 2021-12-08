@@ -34,7 +34,8 @@ export const findOpponent = (
   characters: CharacterProps[]
 ) => {
   const opponents = characters.filter(
-    (char: CharacterProps) => char.id !== attacker.id && char.available
+    (character: CharacterProps) =>
+      character.available && character.id !== attacker.id
   );
 
   console.log(opponents);

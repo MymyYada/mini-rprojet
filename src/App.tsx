@@ -30,7 +30,12 @@ function App() {
       </header>
 
       <GradientText text="Bonjour" />
-      {context.attacker ? <Lobby attacker={context.attacker} /> : <Character />}
+
+      {context.attacker && context.opponent ? (
+        <Lobby attacker={context.attacker} opponent={context.opponent} />
+      ) : (
+        <Character />
+      )}
     </div>
   );
 }

@@ -12,10 +12,12 @@ import {
   CharacterResponse,
   StatType,
 } from "../components/Character/types";
+import { findOpponent } from "./utils";
 
 type AppContextType = {
   characters: CharacterProps[];
   attacker: CharacterProps | null;
+  opponent: CharacterProps | null;
   setAttacker: React.Dispatch<React.SetStateAction<CharacterProps | null>>;
   getAllCharacters: () => void;
   addCharacter: (character: CharacterRequest) => void;
@@ -26,6 +28,7 @@ type AppContextType = {
 const AppContext = React.createContext<AppContextType>({
   characters: [],
   attacker: null,
+  opponent: null,
   setAttacker: () => {
     // initially empty
   },
@@ -46,6 +49,7 @@ const AppContext = React.createContext<AppContextType>({
 export const AppProvider: React.FunctionComponent = ({ children }) => {
   const [characters, setCharacters] = useState([]);
   const [attacker, setAttacker] = useState<CharacterProps | null>(null);
+  const [opponent, setOpponent] = useState<CharacterProps | null>(null);
   const getAllCharacters = useCallback(async () => {
     fetch("/characters/all")
       .then((response) => {
@@ -166,11 +170,16 @@ export const AppProvider: React.FunctionComponent = ({ children }) => {
     getAllCharacters();
   }, [getAllCharacters]);
 
+  useEffect(() => {
+    if (attacker !== null) setOpponent(findOpponent(attacker, characters));
+  }, [attacker, characters]);
+
   const MemoValue = useMemo(
     () => ({
       characters,
       attacker,
       setAttacker,
+      opponent,
       getAllCharacters,
       addCharacter,
       updateCharacter,
@@ -180,6 +189,7 @@ export const AppProvider: React.FunctionComponent = ({ children }) => {
       characters,
       attacker,
       setAttacker,
+      opponent,
       getAllCharacters,
       addCharacter,
       updateCharacter,

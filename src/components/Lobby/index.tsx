@@ -1,16 +1,19 @@
-import { useAppContext } from "../../app/AppContext";
-import { findOpponent } from "../../app/utils";
 import { CharacterProps } from "../Character/types";
 import FighterItem from "./FighterItem";
 import Modal from "./Modal";
 
-const Lobby = ({ attacker }: { attacker: CharacterProps }) => {
-  const context = useAppContext();
+const Lobby = ({
+  attacker,
+  opponent,
+}: {
+  attacker: CharacterProps;
+  opponent: CharacterProps;
+}) => {
   return (
     <div>
       <div className="flex">
         <FighterItem fighter={attacker} />
-        <FighterItem fighter={findOpponent(attacker, context.characters)} />
+        <FighterItem fighter={opponent} />
       </div>
       <Modal />
     </div>
