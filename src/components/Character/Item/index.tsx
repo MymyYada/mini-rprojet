@@ -61,7 +61,7 @@ const CharacterItem = ({ ...characterProps }: CharacterProps) => {
             onClick={() => {
               context.setAttacker(character);
               context.setOpponent(findOpponent(character, context.characters));
-              //TODO: setOpponent() déclenche le refresh, findOpponent() non
+              //TODO: context.setOpponent() déclenche le refresh, context.findOpponent() non
               // context.findOpponent();
             }}
           >

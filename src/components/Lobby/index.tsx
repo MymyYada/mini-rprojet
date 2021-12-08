@@ -75,13 +75,13 @@ const Lobby = ({ attacker, opponent }: FightProps) => {
 
     newOpponent = runTurn({ attacker, opponent });
     if (newOpponent) context.setOpponent(newOpponent);
-    if (isDefeated(context.opponent)) {
-      //fin de combat
+    if (newOpponent && isDefeated(newOpponent)) {
+      //fin de combat (win)
     } else {
       newAttacker = runTurn({ attacker: context.opponent, opponent: attacker });
       if (newAttacker) context.setAttacker(newAttacker);
-      if (isDefeated(context.attacker)) {
-        //fin de combat
+      if (newAttacker && isDefeated(newAttacker)) {
+        //fin de combat (lose)
       }
     }
 

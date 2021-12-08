@@ -13,7 +13,15 @@ const Character = () => {
         context.characters.map((character: CharacterProps) => (
           <CharacterItem key={character.id} {...character} />
         ))}
-      <button onClick={() => context.addCharacter({ name: "Bob" })}>
+      <button
+        onClick={() =>
+          context.addCharacter({
+            name: `Bob${
+              context.characters[context.characters.length - 1].id + 1
+            }`,
+          })
+        }
+      >
         Ajouter
       </button>
     </div>
