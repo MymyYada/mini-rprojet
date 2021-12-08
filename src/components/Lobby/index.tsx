@@ -90,7 +90,14 @@ const Lobby = ({ attacker, opponent }: FightProps) => {
 
   return (
     <div>
-      <button onClick={() => context.setAttacker(null)}>Retour</button>
+      <button
+        onClick={() => {
+          context.setAttacker(null);
+          context.setOpponent(null);
+        }}
+      >
+        Retour
+      </button>
       <div className="flex">
         <FighterItem fighter={attacker} />
         <FighterItem fighter={opponent} />

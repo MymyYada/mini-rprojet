@@ -1,6 +1,7 @@
 import { DateTime } from "luxon";
 import { useState } from "react";
 import { useAppContext } from "../../../app/AppContext";
+import { findOpponent } from "../../../app/utils";
 import { ChangeProps, CharacterProps } from "../types";
 import Stat from "./Stat";
 
@@ -57,7 +58,12 @@ const CharacterItem = ({ ...characterProps }: CharacterProps) => {
           )}
           <button
             className="mx-4 my-2"
-            onClick={() => context.setAttacker(character)}
+            onClick={() => {
+              context.setAttacker(character);
+              context.setOpponent(findOpponent(character, context.characters));
+              //TODO: setOpponent() déclenche le refresh, findOpponent() non
+              // context.findOpponent();
+            }}
           >
             Combattre
           </button>

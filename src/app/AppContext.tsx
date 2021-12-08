@@ -12,7 +12,7 @@ import {
   CharacterResponse,
   StatType,
 } from "../components/Character/types";
-import { randBetween } from "./utils";
+// import { randBetween } from "./utils";
 
 type AppContextType = {
   characters: CharacterProps[];
@@ -20,6 +20,7 @@ type AppContextType = {
   opponent: CharacterProps | null;
   setAttacker: React.Dispatch<React.SetStateAction<CharacterProps | null>>;
   setOpponent: React.Dispatch<React.SetStateAction<CharacterProps | null>>;
+  // findOpponent: () => void;
   getAllCharacters: () => void;
   addCharacter: (character: CharacterRequest) => void;
   updateCharacter: (character: CharacterProps) => void;
@@ -36,6 +37,9 @@ const AppContext = React.createContext<AppContextType>({
   setOpponent: () => {
     // initially empty
   },
+  // findOpponent: () => {
+  //   // initially empty
+  // },
   getAllCharacters: () => {
     // initially empty
   },
@@ -169,31 +173,27 @@ export const AppProvider: React.FunctionComponent = ({ children }) => {
     },
     [getAllCharacters]
   );
-  const findOpponent = useCallback(() => {
-    if (attacker === null) return null;
+  // const findOpponent = useCallback(() => {
+  //   if (attacker === null) return null;
 
-    const opponents = characters.filter(
-      (character: CharacterProps) =>
-        character.available && character.id !== attacker.id
-    );
-    const opponent =
-      opponents.length > 0
-        ? opponents[randBetween({ max: opponents.length })]
-        : null;
+  //   const opponents = characters.filter(
+  //     (character: CharacterProps) =>
+  //       character.available && character.id !== attacker.id
+  //   );
+  //   const opponent =
+  //     opponents.length > 0
+  //       ? opponents[randBetween({ max: opponents.length })]
+  //       : null;
 
-    console.log(opponents);
-    console.log(opponent);
+  //   console.log(opponents);
+  //   console.log(opponent);
 
-    return opponent;
-  }, [attacker, characters]);
+  //   setOpponent(opponent);
+  // }, [attacker, characters]);
 
   useEffect(() => {
     getAllCharacters();
   }, [getAllCharacters]);
-
-  useEffect(() => {
-    setOpponent(findOpponent());
-  }, [findOpponent]);
 
   const MemoValue = useMemo(
     () => ({
@@ -202,6 +202,7 @@ export const AppProvider: React.FunctionComponent = ({ children }) => {
       opponent,
       setAttacker,
       setOpponent,
+      // findOpponent,
       getAllCharacters,
       addCharacter,
       updateCharacter,
@@ -213,6 +214,7 @@ export const AppProvider: React.FunctionComponent = ({ children }) => {
       opponent,
       setAttacker,
       setOpponent,
+      // findOpponent,
       getAllCharacters,
       addCharacter,
       updateCharacter,
