@@ -19,6 +19,7 @@ type AppContextType = {
   attacker: CharacterProps | null;
   opponent: CharacterProps | null;
   setAttacker: React.Dispatch<React.SetStateAction<CharacterProps | null>>;
+  setOpponent: React.Dispatch<React.SetStateAction<CharacterProps | null>>;
   getAllCharacters: () => void;
   addCharacter: (character: CharacterRequest) => void;
   updateCharacter: (character: CharacterProps) => void;
@@ -30,6 +31,9 @@ const AppContext = React.createContext<AppContextType>({
   attacker: null,
   opponent: null,
   setAttacker: () => {
+    // initially empty
+  },
+  setOpponent: () => {
     // initially empty
   },
   getAllCharacters: () => {
@@ -195,8 +199,9 @@ export const AppProvider: React.FunctionComponent = ({ children }) => {
     () => ({
       characters,
       attacker,
-      setAttacker,
       opponent,
+      setAttacker,
+      setOpponent,
       getAllCharacters,
       addCharacter,
       updateCharacter,
@@ -205,8 +210,9 @@ export const AppProvider: React.FunctionComponent = ({ children }) => {
     [
       characters,
       attacker,
-      setAttacker,
       opponent,
+      setAttacker,
+      setOpponent,
       getAllCharacters,
       addCharacter,
       updateCharacter,

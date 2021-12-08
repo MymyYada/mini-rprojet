@@ -1,19 +1,9 @@
-import { useAppContext } from "../../app/AppContext";
-import { rollADie } from "../../app/utils";
-
-const Modal = () => {
-  const context = useAppContext();
-
+const Modal = ({ texts }: { texts: string[] }) => {
   return (
     <div>
-      <button
-        className="mx-4"
-        onClick={() =>
-          context.attacker !== null && rollADie(context.attacker.attack.value)
-        }
-      >
-        Lancer un dé (test)
-      </button>
+      {texts.map((text: string, key: number) => (
+        <div key={key}>{text}</div>
+      ))}
     </div>
   );
 };

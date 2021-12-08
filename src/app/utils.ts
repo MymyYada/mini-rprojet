@@ -24,9 +24,6 @@ export const randBetween = ({
 
 export const rollADie = (nbFace: number) => {
   if (nbFace === 0) return 0;
-  const res = randBetween({ min: 1, max: nbFace });
 
-  console.log(`Roll 1D${nbFace}. Result: ${res}`);
-
-  return res;
+  return randBetween({ min: 1, max: nbFace });
 };
