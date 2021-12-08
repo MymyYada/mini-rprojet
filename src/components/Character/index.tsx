@@ -5,6 +5,7 @@ import { CharacterProps } from "./types";
 
 const Character = () => {
   const context = useAppContext();
+
   return (
     <div>
       <div>Personnages</div>

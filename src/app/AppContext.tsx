@@ -12,7 +12,7 @@ import {
   CharacterResponse,
   StatType,
 } from "../components/Character/types";
-import { findOpponent } from "./utils";
+import { randBetween } from "./utils";
 
 type AppContextType = {
   characters: CharacterProps[];
@@ -165,14 +165,31 @@ export const AppProvider: React.FunctionComponent = ({ children }) => {
     },
     [getAllCharacters]
   );
+  const findOpponent = useCallback(() => {
+    if (attacker === null) return null;
+
+    const opponents = characters.filter(
+      (character: CharacterProps) =>
+        character.available && character.id !== attacker.id
+    );
+    const opponent =
+      opponents.length > 0
+        ? opponents[randBetween({ max: opponents.length })]
+        : null;
+
+    console.log(opponents);
+    console.log(opponent);
+
+    return opponent;
+  }, [attacker, characters]);
 
   useEffect(() => {
     getAllCharacters();
   }, [getAllCharacters]);
 
   useEffect(() => {
-    if (attacker !== null) setOpponent(findOpponent(attacker, characters));
-  }, [attacker, characters]);
+    setOpponent(findOpponent());
+  }, [findOpponent]);
 
   const MemoValue = useMemo(
     () => ({
