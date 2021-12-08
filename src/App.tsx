@@ -1,10 +1,17 @@
 import React from "react";
 import "./App.css";
+import {
+  AppProvider as AppContextProvider,
+  useAppContext,
+} from "./app/AppContext";
 import Character from "./components/Character";
 import { GradientText } from "./components/GradientText";
+import Lobby from "./components/Lobby";
 import logo from "./logo.svg";
 
 function App() {
+  const context = useAppContext();
+
   return (
     <div className="App">
       <header className="App-header">
@@ -21,10 +28,24 @@ function App() {
           Learn React
         </a>
       </header>
+
       <GradientText text="Bonjour" />
-      <Character />
+
+      {context.attacker && context.opponent ? (
+        <Lobby attacker={context.attacker} opponent={context.opponent} />
+      ) : (
+        <Character />
+      )}
     </div>
   );
 }
 
-export default App;
+function AppWithContext() {
+  return (
+    <AppContextProvider>
+      <App />
+    </AppContextProvider>
+  );
+}
+
+export default AppWithContext;
