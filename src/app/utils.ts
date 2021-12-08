@@ -37,8 +37,13 @@ export const findOpponent = (
     (character: CharacterProps) =>
       character.available && character.id !== attacker.id
   );
+  const opponent =
+    opponents.length > 0
+      ? opponents[randBetween({ max: opponents.length })]
+      : null;
 
   console.log(opponents);
+  console.log(opponent);
 
-  return opponents[randBetween({ max: opponents.length })];
+  return opponent;
 };
