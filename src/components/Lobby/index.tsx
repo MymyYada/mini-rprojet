@@ -6,14 +6,13 @@ import Modal from "./Modal";
 
 const Lobby = ({ attacker }: { attacker: CharacterProps }) => {
   const context = useAppContext();
-
   return (
     <div>
       <div className="flex">
-        <FighterItem {...attacker} />
-        <FighterItem {...findOpponent(attacker, context.characters)} />
+        <FighterItem fighter={attacker} />
+        <FighterItem fighter={findOpponent(attacker, context.characters)} />
       </div>
-      <Modal {...attacker} />
+      <Modal />
     </div>
   );
 };

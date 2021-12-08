@@ -15,6 +15,8 @@ import {
 
 type AppContextType = {
   characters: CharacterProps[];
+  attacker: CharacterProps | null;
+  setAttacker: React.Dispatch<React.SetStateAction<CharacterProps | null>>;
   getAllCharacters: () => void;
   addCharacter: (character: CharacterRequest) => void;
   updateCharacter: (character: CharacterProps) => void;
@@ -23,6 +25,10 @@ type AppContextType = {
 
 const AppContext = React.createContext<AppContextType>({
   characters: [],
+  attacker: null,
+  setAttacker: () => {
+    // initially empty
+  },
   getAllCharacters: () => {
     // initially empty
   },
@@ -39,6 +45,7 @@ const AppContext = React.createContext<AppContextType>({
 
 export const AppProvider: React.FunctionComponent = ({ children }) => {
   const [characters, setCharacters] = useState([]);
+  const [attacker, setAttacker] = useState<CharacterProps | null>(null);
   const getAllCharacters = useCallback(async () => {
     fetch("/characters/all")
       .then((response) => {
@@ -162,6 +169,8 @@ export const AppProvider: React.FunctionComponent = ({ children }) => {
   const MemoValue = useMemo(
     () => ({
       characters,
+      attacker,
+      setAttacker,
       getAllCharacters,
       addCharacter,
       updateCharacter,
@@ -169,6 +178,8 @@ export const AppProvider: React.FunctionComponent = ({ children }) => {
     }),
     [
       characters,
+      attacker,
+      setAttacker,
       getAllCharacters,
       addCharacter,
       updateCharacter,

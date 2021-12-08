@@ -1,6 +1,6 @@
 import { CharacterProps } from "../Character/types";
 
-const FighterItem = (fighter: CharacterProps) => {
+const FighterItem = ({ fighter }: { fighter: CharacterProps }) => {
   return (
     <div>
       <div className="m-8">{`name: ${fighter.name}`}</div>

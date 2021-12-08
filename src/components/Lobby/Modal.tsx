@@ -1,10 +1,17 @@
+import { useAppContext } from "../../app/AppContext";
 import { rollADie } from "../../app/utils";
-import { CharacterProps } from "../Character/types";
 
-const Modal = (character: CharacterProps) => {
+const Modal = () => {
+  const context = useAppContext();
+
   return (
     <div>
-      <button className="mx-4" onClick={() => rollADie(character.attack.value)}>
+      <button
+        className="mx-4"
+        onClick={() =>
+          context.attacker !== null && rollADie(context.attacker.attack.value)
+        }
+      >
         Lancer un dé (test)
       </button>
     </div>

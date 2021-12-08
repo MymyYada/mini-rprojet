@@ -4,12 +4,7 @@ import { useAppContext } from "../../../app/AppContext";
 import { ChangeProps, CharacterProps } from "../types";
 import Stat from "./Stat";
 
-const CharacterItem = ({
-  attackerCallback,
-  ...characterProps
-}: CharacterProps & {
-  attackerCallback: (character: CharacterProps) => void;
-}) => {
+const CharacterItem = ({ ...characterProps }: CharacterProps) => {
   const context = useAppContext();
   const [character, setCharacter] = useState({ ...characterProps });
   const [characterTemp, setCharacterTemp] = useState({ ...characterProps });
@@ -44,7 +39,7 @@ const CharacterItem = ({
         >
           Supprimer
         </button>
-        <button className="mx-4" onClick={() => attackerCallback(character)}>
+        <button className="mx-4" onClick={() => context.setAttacker(character)}>
           Combattre
         </button>
       </div>
