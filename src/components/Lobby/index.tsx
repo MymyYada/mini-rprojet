@@ -19,6 +19,7 @@ const Lobby = ({ attacker, opponent }: FightProps) => {
   // const alert = (text: string) => {
   //   setTexts([...texts, text]);
   // };
+
   const attacking = ({ attacker, opponent }: FightProps) => {
     const nbFace = attacker.attack.value;
     const atk = rollADie(nbFace);
