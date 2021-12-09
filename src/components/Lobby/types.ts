@@ -11,6 +11,7 @@ export type DefendingProps = {
 };
 
 export type TakeDamageProps = {
+  attacker: FightProps["attacker"];
   opponent: FightProps["opponent"];
   damage: number;
 };
