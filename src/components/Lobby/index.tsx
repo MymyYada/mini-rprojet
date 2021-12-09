@@ -11,6 +11,10 @@ const Lobby = ({ attacker, opponent }: FightProps) => {
   const [texts, setTexts] = useState<string[]>([]);
   const [round, setRound] = useState(1);
   const [endgame, setEndgame] = useState(false);
+  const back = () => {
+    context.setAttacker(null);
+    context.setOpponent(null);
+  };
   const alert = (text: string) => {
     setTexts([...texts, text]);
   };
@@ -138,12 +142,7 @@ const Lobby = ({ attacker, opponent }: FightProps) => {
       </div>
       <Modal texts={texts} />
       {endgame ? (
-        <button
-          onClick={() => {
-            context.setAttacker(null);
-            context.setOpponent(null);
-          }}
-        >
+        <button className="mx-4" onClick={back}>
           Retour
         </button>
       ) : (
