@@ -9,23 +9,22 @@ import { DefendingProps, FightProps, TakeDamageProps } from "./types";
 const Lobby = ({ attacker, opponent }: FightProps) => {
   const context = useAppContext();
   const [texts, setTexts] = useState<string[]>([]);
+  let journal: string[] = [];
   const [round, setRound] = useState(1);
   const [endgame, setEndgame] = useState(false);
   const back = () => {
     context.setAttacker(null);
     context.setOpponent(null);
   };
-  const alert = (text: string) => {
-    setTexts([...texts, text]);
-  };
-
+  // const alert = (text: string) => {
+  //   setTexts([...texts, text]);
+  // };
   const attacking = ({ attacker, opponent }: FightProps) => {
     const nbFace = attacker.attack.value;
     const atk = rollADie(nbFace);
     const info = `- ${attacker.name} attaque ${opponent.name} (1D${nbFace}: ${atk}).`;
 
-    alert(info);
-    console.log(info);
+    journal.push(info);
 
     return atk;
   };
@@ -34,8 +33,7 @@ const Lobby = ({ attacker, opponent }: FightProps) => {
     const def = opponent.defense.value;
     const info = `- ${opponent.name} se défend (dmg:${atk} - def:${def}).`;
 
-    alert(info);
-    console.log(info);
+    journal.push(info);
 
     return Math.max(0, atk - def);
   };
@@ -45,12 +43,10 @@ const Lobby = ({ attacker, opponent }: FightProps) => {
     const infoMag = `- La magie de ${attacker.name} affecte ${opponent.name} ! (-${damage} health).`;
     const mag = attacker.magik.value;
 
-    alert(info);
-    console.log(info);
+    journal.push(info);
 
     if (damage === mag) {
-      alert(infoMag);
-      console.log(infoMag);
+      journal.push(infoMag);
       damage = damage * 2;
     }
 
@@ -74,8 +70,7 @@ const Lobby = ({ attacker, opponent }: FightProps) => {
     };
 
     if (defeated) {
-      alert(info);
-      console.log(info);
+      journal.push(info);
 
       context.updateCharacter({
         ...attacker,
@@ -101,8 +96,7 @@ const Lobby = ({ attacker, opponent }: FightProps) => {
     let atk;
     let damage;
 
-    alert(info);
-    console.log(info);
+    journal.push(info);
 
     atk = attacking({ attacker, opponent });
     damage = defending({ opponent, atk });
@@ -119,8 +113,7 @@ const Lobby = ({ attacker, opponent }: FightProps) => {
   const runRound = () => {
     const info = `Round ${round} :`;
 
-    alert(info);
-    console.log(info);
+    journal.push(info);
 
     runTurn({ attacker, opponent });
     if (!endgame)
@@ -130,7 +123,7 @@ const Lobby = ({ attacker, opponent }: FightProps) => {
         strikeback: true,
       });
 
-    console.log(texts);
+    setTexts(texts.concat(journal));
     setRound(round + 1);
   };
 
