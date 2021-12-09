@@ -22,3 +22,10 @@ export type TurnProps = {
   opponent: FightProps["opponent"];
   strikeback?: Boolean;
 };
+
+export type ReportProps = {
+  attacker: CharacterProps;
+  opponent: CharacterProps;
+  damage?: number;
+  strikeback?: Boolean;
+};
