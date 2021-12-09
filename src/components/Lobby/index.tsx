@@ -1,150 +1,158 @@
 import { useState } from "react";
 import { useAppContext } from "../../app/AppContext";
 import { rollADie } from "../../app/utils";
-import { StatProps } from "../Character/types";
+import { CharacterProps, StatProps } from "../Character/types";
 import FighterItem from "./FighterItem";
 import Modal from "./Modal";
-import { DefendingProps, FightProps, TakeDamageProps } from "./types";
+import {
+  DefendingProps,
+  FightProps,
+  TakeDamageProps,
+  TurnProps,
+} from "./types";
 
 const Lobby = ({ attacker, opponent }: FightProps) => {
   const context = useAppContext();
   const [texts, setTexts] = useState<string[]>([]);
-  let journal: string[] = [];
   const [round, setRound] = useState(1);
   const [endgame, setEndgame] = useState(false);
   const back = () => {
     context.setAttacker(null);
     context.setOpponent(null);
   };
-  // const alert = (text: string) => {
-  //   setTexts([...texts, text]);
-  // };
-
-  const attacking = ({ attacker, opponent }: FightProps) => {
-    const nbFace = attacker.attack.value;
-    const atk = rollADie(nbFace);
-    const info = `- ${attacker.name} attaque ${opponent.name} (1D${nbFace}: ${atk}).`;
-
-    journal.push(info);
-    console.log(info);
-
-    return atk;
+  const alert = (text: string) => {
+    setTexts([...texts, text]);
+    console.log(text);
   };
 
-  const defending = ({ opponent, atk }: DefendingProps) => {
-    const def = opponent.defense.value;
-    const info = `- ${opponent.name} se défend (dmg:${atk} - def:${def}).`;
+  const attacking = ({ attacker, opponent }: FightProps) =>
+    new Promise<number>((resolve) => {
+      const action = () => {
+        const dice = attacker.attack.value;
+        const atk = rollADie(dice);
+        const info = `- ${attacker.name} attaque ${opponent.name} (1D${dice}: ${atk}).`;
 
-    journal.push(info);
-    console.log(info);
-
-    return Math.max(0, atk - def);
-  };
-
-  const takeDamage = ({ attacker, opponent, damage }: TakeDamageProps) => {
-    const info = `- Mais ${opponent.name} est blessé ! (-${damage} health).`;
-    const infoMag = `- La magie de ${attacker.name} affecte ${opponent.name} ! (-${damage} health).`;
-    const mag = attacker.magik.value;
-
-    journal.push(info);
-    console.log(info);
-
-    if (damage === mag) {
-      journal.push(infoMag);
-      console.log(infoMag);
-      damage = damage * 2;
-    }
-
-    return {
-      ...opponent,
-      health: {
-        ...opponent.health,
-        value: Math.max(0, opponent.health.value - damage),
-      },
-    };
-  };
-
-  const checkEndgame = ({ attacker, opponent }: FightProps) => {
-    const info = `${opponent.name} est vaincu !`;
-    const defeated = opponent.health.value === 0;
-    const healing = (health: StatProps) => {
-      return {
-        ...health,
-        value: health.max_value ? health.max_value : health.value,
+        alert(info);
+        resolve(atk);
       };
-    };
+      setTimeout(action, 1000);
+    });
 
-    if (defeated) {
-      journal.push(info);
-      console.log(info);
+  const defending = ({ opponent, atk }: DefendingProps) =>
+    new Promise<number>((resolve) => {
+      const action = () => {
+        const def = opponent.defense.value;
+        const info = `- ${opponent.name} se défend (dmg:${atk} - def:${def}).`;
 
-      context.updateCharacter({
-        ...attacker,
-        rank: attacker.rank + 1,
-        skill_pts: attacker.skill_pts + 1,
-        health: healing(attacker.health),
-      });
-      context.updateCharacter({
-        ...opponent,
-        rank: Math.max(1, opponent.rank - 1),
-        health: healing(opponent.health),
-      });
-      setEndgame(true);
-    }
-  };
+        alert(info);
+        resolve(Math.max(0, atk - def));
+      };
+      setTimeout(action, 1000);
+    });
 
-  const runTurn = ({
+  const takeDamage = ({
     attacker,
     opponent,
+    damage,
     strikeback,
-  }: FightProps & { strikeback?: Boolean }) => {
-    const info = `Tour de ${attacker.name} :`;
-    // let atk;
-    // let damage;
+  }: TakeDamageProps) =>
+    new Promise<CharacterProps>((resolve) => {
+      const action = () => {
+        const info = `- Mais ${opponent.name} est blessé ! (-${damage} health).`;
+        const infoMag = `- La magie de ${attacker.name} affecte ${opponent.name} ! (-${damage} health).`;
+        const mag = attacker.magik.value;
+        let newOpponent;
 
-    journal.push(info);
-    console.log(info);
+        alert(info);
 
-    new Promise<number>((resolve) => {
-      setTimeout(() => resolve(attacking({ attacker, opponent })), 1000);
-      // resolve(attacking({ attacker, opponent }));
-    })
-      .then((atk) => defending({ opponent, atk }))
-      .then((damage) => takeDamage({ attacker, opponent, damage }))
-      .then((newOpponent) => {
+        if (damage === mag) {
+          alert(infoMag);
+          damage = damage * 2;
+        }
+        newOpponent = {
+          ...opponent,
+          health: {
+            ...opponent.health,
+            value: Math.max(0, opponent.health.value - damage),
+          },
+        };
         strikeback
           ? context.setAttacker(newOpponent)
           : context.setOpponent(newOpponent);
-        checkEndgame({ attacker, opponent: newOpponent });
-      });
 
-    // atk = attacking({ attacker, opponent });
-    // damage = defending({ opponent, atk });
+        resolve(newOpponent);
+      };
+      setTimeout(action, 1000);
+    });
 
-    // if (damage > 0) {
-    //   let newOpponent = takeDamage({ attacker, opponent, damage });
-    //   strikeback
-    //     ? context.setAttacker(newOpponent)
-    //     : context.setOpponent(newOpponent);
-    //   checkEndgame({ attacker, opponent: newOpponent });
-    // }
-  };
+  const checkEndgame = ({ attacker, opponent }: FightProps) =>
+    new Promise<Boolean>((resolve) => {
+      const action = () => {
+        const info = `${opponent.name} est vaincu !`;
+        const defeated = opponent.health.value === 0;
+        const healing = (health: StatProps) => {
+          return {
+            ...health,
+            value: health.max_value ? health.max_value : health.value,
+          };
+        };
+
+        if (defeated) {
+          alert(info);
+
+          context.updateCharacter({
+            ...attacker,
+            rank: attacker.rank + 1,
+            skill_pts: attacker.skill_pts + 1,
+            health: healing(attacker.health),
+          });
+          context.updateCharacter({
+            ...opponent,
+            rank: Math.max(1, opponent.rank - 1),
+            health: healing(opponent.health),
+          });
+        }
+
+        resolve(defeated);
+      };
+      setTimeout(action, 1000);
+    });
+
+  const runTurn = ({ attacker, opponent, strikeback }: TurnProps) =>
+    new Promise<Boolean>((resolve) => {
+      const action = () => {
+        const info = `Tour de ${attacker.name} :`;
+
+        alert(info);
+
+        attacking({ attacker, opponent }).then((atk) =>
+          defending({ opponent, atk }).then((damage) =>
+            takeDamage({ attacker, opponent, damage, strikeback }).then(
+              (newOpponent) =>
+                resolve(checkEndgame({ attacker, opponent: newOpponent }))
+            )
+          )
+        );
+      };
+      setTimeout(action, 1000);
+    });
 
   const runRound = () => {
     const info = `Round ${round} :`;
 
-    journal.push(info);
+    alert(info);
 
-    runTurn({ attacker, opponent });
-    if (!endgame)
-      runTurn({
-        attacker: opponent,
-        opponent: attacker,
-        strikeback: true,
-      });
-
-    setTexts(texts.concat(journal));
-    setRound(round + 1);
+    runTurn({ attacker, opponent })
+      .then((endgame) => {
+        if (!endgame)
+          runTurn({
+            attacker: opponent,
+            opponent: attacker,
+            strikeback: true,
+          });
+        else setEndgame(true);
+      })
+      .then(() => setRound(round + 1));
   };
 
   return (

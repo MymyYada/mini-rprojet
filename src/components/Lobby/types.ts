@@ -14,4 +14,11 @@ export type TakeDamageProps = {
   attacker: FightProps["attacker"];
   opponent: FightProps["opponent"];
   damage: number;
+  strikeback?: Boolean;
+};
+
+export type TurnProps = {
+  attacker: FightProps["attacker"];
+  opponent: FightProps["opponent"];
+  strikeback?: Boolean;
 };
