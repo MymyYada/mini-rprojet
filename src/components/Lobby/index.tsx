@@ -26,6 +26,7 @@ const Lobby = ({ attacker, opponent }: FightProps) => {
     const info = `- ${attacker.name} attaque ${opponent.name} (1D${nbFace}: ${atk}).`;
 
     journal.push(info);
+    console.log(info);
 
     return atk;
   };
@@ -35,6 +36,7 @@ const Lobby = ({ attacker, opponent }: FightProps) => {
     const info = `- ${opponent.name} se défend (dmg:${atk} - def:${def}).`;
 
     journal.push(info);
+    console.log(info);
 
     return Math.max(0, atk - def);
   };
@@ -45,9 +47,11 @@ const Lobby = ({ attacker, opponent }: FightProps) => {
     const mag = attacker.magik.value;
 
     journal.push(info);
+    console.log(info);
 
     if (damage === mag) {
       journal.push(infoMag);
+      console.log(infoMag);
       damage = damage * 2;
     }
 
@@ -72,6 +76,7 @@ const Lobby = ({ attacker, opponent }: FightProps) => {
 
     if (defeated) {
       journal.push(info);
+      console.log(info);
 
       context.updateCharacter({
         ...attacker,
@@ -94,21 +99,35 @@ const Lobby = ({ attacker, opponent }: FightProps) => {
     strikeback,
   }: FightProps & { strikeback?: Boolean }) => {
     const info = `Tour de ${attacker.name} :`;
-    let atk;
-    let damage;
+    // let atk;
+    // let damage;
 
     journal.push(info);
+    console.log(info);
 
-    atk = attacking({ attacker, opponent });
-    damage = defending({ opponent, atk });
+    new Promise<number>((resolve) => {
+      setTimeout(() => resolve(attacking({ attacker, opponent })), 1000);
+      // resolve(attacking({ attacker, opponent }));
+    })
+      .then((atk) => defending({ opponent, atk }))
+      .then((damage) => takeDamage({ attacker, opponent, damage }))
+      .then((newOpponent) => {
+        strikeback
+          ? context.setAttacker(newOpponent)
+          : context.setOpponent(newOpponent);
+        checkEndgame({ attacker, opponent: newOpponent });
+      });
 
-    if (damage > 0) {
-      let newOpponent = takeDamage({ attacker, opponent, damage });
-      strikeback
-        ? context.setAttacker(newOpponent)
-        : context.setOpponent(newOpponent);
-      checkEndgame({ attacker, opponent: newOpponent });
-    }
+    // atk = attacking({ attacker, opponent });
+    // damage = defending({ opponent, atk });
+
+    // if (damage > 0) {
+    //   let newOpponent = takeDamage({ attacker, opponent, damage });
+    //   strikeback
+    //     ? context.setAttacker(newOpponent)
+    //     : context.setOpponent(newOpponent);
+    //   checkEndgame({ attacker, opponent: newOpponent });
+    // }
   };
 
   const runRound = () => {
