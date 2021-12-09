@@ -16,17 +16,20 @@ export const costCalc = (stat: StatProps, alt: number) => {
   return alt;
 };
 
-const randBetween = ({ min = 0, max }: { min?: number; max: number }) => {
+export const randBetween = ({
+  min = 0,
+  max,
+}: {
+  min?: number;
+  max: number;
+}) => {
   return Math.floor(Math.random() * max) + min;
 };
 
 export const rollADie = (nbFace: number) => {
   if (nbFace === 0) return 0;
-  const res = randBetween({ min: 1, max: nbFace });
 
-  console.log(`Roll 1D${nbFace}. Result: ${res}`);
-
-  return res;
+  return randBetween({ min: 1, max: nbFace });
 };
 
 export const findOpponent = (
