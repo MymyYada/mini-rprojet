@@ -1,4 +1,3 @@
-import React from "react";
 import { useAppContext } from "../../app/AppContext";
 import Button from "../Button";
 import Character from "./Character";
@@ -6,6 +5,11 @@ import { CharacterProps } from "./types";
 
 const CharacterList = () => {
   const context = useAppContext();
+  const add = () => {
+    context.addCharacter({
+      name: `Bob${context.characters[context.characters.length - 1].id + 1}`,
+    });
+  };
 
   return (
     <div>
@@ -18,17 +22,7 @@ const CharacterList = () => {
             <Character key={character.id} {...character} />
           ))}
       </ul>
-      <Button
-        label="Ajouter"
-        icon="user-plus"
-        onClick={() =>
-          context.addCharacter({
-            name: `Bob${
-              context.characters[context.characters.length - 1].id + 1
-            }`,
-          })
-        }
-      />
+      <Button label="Ajouter" icon="user-plus" onClick={add} />
     </div>
   );
 };

@@ -4,7 +4,7 @@ const Navbar = () => {
   return (
     <div className="absolute top-0 right-0 left-0">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="flex justify-between items-center border-b-2 border-gray-100 py-6 md:justify-start md:space-x-10">
+        <div className="flex justify-between items-center border-b border-gray-200 py-6 md:justify-start md:space-x-10">
           <div className="flex justify-start lg:w-0 lg:flex-1">
             <a href="#">
               <img className="h-8 w-auto sm:h-10" src={Logo} alt="" />
@@ -13,13 +13,13 @@ const Navbar = () => {
           <div className="hidden md:flex space-x-10">
             <a
               href="#"
-              className="text-base font-medium text-gray-500 hover:text-gray-900"
+              className="text-base font-medium text-gray-600 hover:text-gray-900"
             >
               Combattants
             </a>
             <a
               href="#"
-              className="text-base font-medium text-gray-500 hover:text-gray-900"
+              className="text-base font-medium text-gray-600 hover:text-gray-900"
             >
               Arène
             </a>
@@ -28,7 +28,7 @@ const Navbar = () => {
           <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
             <a
               href="#"
-              className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900"
+              className="whitespace-nowrap text-base font-medium text-gray-600 hover:text-gray-900"
             >
               Connexion
             </a>

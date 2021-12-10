@@ -22,6 +22,15 @@ const Character = ({ ...characterProps }: CharacterProps) => {
         [newStat.type]: newStat,
       });
   };
+  const update = () => {
+    context.updateCharacter(character);
+    setCharacterTemp(character);
+  };
+  const fight = () => {
+    const opponent = findOpponent(character, context.characters);
+    if (opponent) context.setFighters([character, opponent]);
+  };
+  const remove = () => context.removeCharacter(character.id);
 
   return (
     <Card {...character}>
@@ -57,28 +66,10 @@ const Character = ({ ...characterProps }: CharacterProps) => {
 
       <div className="-mt-px flex divide-x divide-gray-200">
         {character.skill_pts !== characterTemp.skill_pts && (
-          <Button
-            label="Update"
-            icon="check"
-            onClick={() => {
-              context.updateCharacter(character);
-              setCharacterTemp(character);
-            }}
-          />
+          <Button label="Valider" icon="check" onClick={update} />
         )}
-        <Button
-          label="Combattre"
-          icon="fist-raised"
-          onClick={() => {
-            const opponent = findOpponent(character, context.characters);
-            if (opponent) context.setFighters([character, opponent]);
-          }}
-        />
-        <Button
-          label="Supprimer"
-          icon="trash-alt"
-          onClick={() => context.removeCharacter(character.id)}
-        />
+        <Button label="Combattre" icon="fist-raised" onClick={fight} />
+        <Button label="Supprimer" icon="trash-alt" onClick={remove} />
       </div>
     </Card>
   );

@@ -12,7 +12,7 @@ function App() {
   const context = useAppContext();
 
   return (
-    <div className="p-10 min-h-screen flex items-center justify-center bg-cool-gray-700">
+    <div className="p-10 min-h-screen flex items-center justify-center bg-gray-50">
       <Navbar />
       {context.fighters.length === 2 ? (
         <Lobby attacker={context.fighters[0]} opponent={context.fighters[1]} />
