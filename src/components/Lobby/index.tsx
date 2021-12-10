@@ -145,10 +145,10 @@ const Lobby = ({ attacker, opponent }: FightProps) => {
 
   return (
     <div>
-      <div className="flex">
+      <ul className="grid grid-cols-1 gap-6 lg:grid-cols-2 mb-6">
         <FighterItem fighter={attacker} />
         <FighterItem fighter={opponent} />
-      </div>
+      </ul>
       <Modal texts={texts} />
       {round === 0 ? (
         <Button label="Retour" onClick={back} />

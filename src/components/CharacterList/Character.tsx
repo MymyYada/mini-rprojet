@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { useAppContext } from "../../app/AppContext";
 import { findOpponent } from "../../app/utils";
-import { ChangeProps, CharacterProps } from "../CharacterList/types";
-import Icon from "../Icon";
-import Stat from "../Stat";
-import Button from "./Button";
-import Header from "./Header";
+import Card from "../Card";
+import Button from "../Card/Button";
+import Stat from "../Card/Stat";
+import CharacterStat from "./CharacterStat";
+import { ChangeProps, CharacterProps } from "./types";
 
-const CharacterItem = ({ ...characterProps }: CharacterProps) => {
+const Character = ({ ...characterProps }: CharacterProps) => {
   const context = useAppContext();
   const [character, setCharacter] = useState({ ...characterProps });
   const [characterTemp, setCharacterTemp] = useState({ ...characterProps });
@@ -24,46 +24,34 @@ const CharacterItem = ({ ...characterProps }: CharacterProps) => {
   };
 
   return (
-    <li className="col-span-1 bg-white rounded-lg shadow divide-y divide-gray-200">
-      <Header {...character} />
-
+    <Card {...character}>
       <div className="-mt-px flex divide-x divide-gray-200">
         <div className="w-full flex flex-col px-6 py-4">
-          <p className="text-gray-500 text-xs mb-1">
-            <Icon
-              icon="level-up-alt"
-              className="h-3 w-3 mr-2"
-              aria-hidden="true"
-            />
-            {`Exp. ${character.skill_pts}`}
-          </p>
-
-          <div className="flex-col">
-            <Stat
-              label="Santé"
-              icon="heart"
-              stat={character.health}
-              changeCallback={changeCallback}
-            />
-            <Stat
-              label="Attaque"
-              icon="fist-raised"
-              stat={character.attack}
-              changeCallback={changeCallback}
-            />
-            <Stat
-              label="Défense"
-              icon="shield-alt"
-              stat={character.defense}
-              changeCallback={changeCallback}
-            />
-            <Stat
-              label="Magie"
-              icon="fire"
-              stat={character.magik}
-              changeCallback={changeCallback}
-            />
-          </div>
+          <Stat icon="level-up-alt" label={`Exp. ${character.skill_pts}`} />
+          <CharacterStat
+            label="Santé"
+            icon="heart"
+            stat={character.health}
+            changeCallback={changeCallback}
+          />
+          <CharacterStat
+            label="Attaque"
+            icon="fist-raised"
+            stat={character.attack}
+            changeCallback={changeCallback}
+          />
+          <CharacterStat
+            label="Défense"
+            icon="shield-alt"
+            stat={character.defense}
+            changeCallback={changeCallback}
+          />
+          <CharacterStat
+            label="Magie"
+            icon="fire"
+            stat={character.magik}
+            changeCallback={changeCallback}
+          />
         </div>
       </div>
 
@@ -92,8 +80,8 @@ const CharacterItem = ({ ...characterProps }: CharacterProps) => {
           onClick={() => context.removeCharacter(character.id)}
         />
       </div>
-    </li>
+    </Card>
   );
 };
 
-export default CharacterItem;
+export default Character;

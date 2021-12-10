@@ -1,7 +1,7 @@
 import React from "react";
 import { useAppContext } from "../../app/AppContext";
 import Button from "../Button";
-import Character from "../Character";
+import Character from "./Character";
 import { CharacterProps } from "./types";
 
 const CharacterList = () => {
