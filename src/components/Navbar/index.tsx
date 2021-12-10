@@ -1,3 +1,5 @@
+import Logo from "../../assets/logo.png";
+
 const Navbar = () => {
   return (
     <div className="absolute top-0 right-0 left-0">
@@ -5,11 +7,7 @@ const Navbar = () => {
         <div className="flex justify-between items-center border-b-2 border-gray-100 py-6 md:justify-start md:space-x-10">
           <div className="flex justify-start lg:w-0 lg:flex-1">
             <a href="#">
-              <img
-                className="h-8 w-auto sm:h-10"
-                src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-                alt=""
-              />
+              <img className="h-8 w-auto sm:h-10" src={Logo} alt="" />
             </a>
           </div>
           <div className="hidden md:flex space-x-10">

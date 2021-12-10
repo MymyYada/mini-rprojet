@@ -1,4 +1,5 @@
 import { DateTime } from "luxon";
+import Image from "../../assets/character.png";
 import { CharacterProps } from "../CharacterList/types";
 
 const Card = ({
@@ -29,11 +30,7 @@ const Card = ({
             {`Dernier combat: ${lastFight.toLocaleString(DateTime.DATE_SHORT)}`}
           </p>
         </div>
-        <img
-          className="w-10 h-10 bg-gray-300 rounded-full flex-shrink-0"
-          src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60"
-          alt=""
-        />
+        <img className="w-8 h-8 flex-shrink-0" src={Image} alt="" />
       </div>
       {children}
     </li>
