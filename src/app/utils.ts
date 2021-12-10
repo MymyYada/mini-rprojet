@@ -50,3 +50,17 @@ export const findOpponent = (
 
   return opponent;
 };
+
+export const healing = (health: StatProps) => {
+  return {
+    ...health,
+    value: health.max_value ? health.max_value : health.value,
+  };
+};
+
+export const hurting = (health: StatProps, damage: number) => {
+  return {
+    ...health,
+    value: Math.max(0, health.value - damage),
+  };
+};

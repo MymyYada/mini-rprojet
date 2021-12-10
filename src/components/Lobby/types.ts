@@ -5,13 +5,9 @@ export type FightProps = {
   opponent: CharacterProps;
 };
 
-export type DefendingProps = {
-  opponent: FightProps["opponent"];
-  atk: number;
-};
-
-export type TakeDamageProps = {
+export type ReportProps = {
   attacker: FightProps["attacker"];
   opponent: FightProps["opponent"];
-  damage: number;
+  damage?: number;
+  strikeback?: Boolean;
 };

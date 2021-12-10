@@ -1,78 +1,45 @@
 import { useState } from "react";
 import { useAppContext } from "../../app/AppContext";
-import { rollADie } from "../../app/utils";
-import { StatProps } from "../Character/types";
+import { healing, hurting, rollADie } from "../../app/utils";
 import FighterItem from "./FighterItem";
 import Modal from "./Modal";
-import { DefendingProps, FightProps, TakeDamageProps } from "./types";
+import { FightProps, ReportProps } from "./types";
 
 const Lobby = ({ attacker, opponent }: FightProps) => {
   const context = useAppContext();
   const [texts, setTexts] = useState<string[]>([]);
-  let journal: string[] = [];
   const [round, setRound] = useState(1);
-  const [endgame, setEndgame] = useState(false);
-  const back = () => {
-    context.setAttacker(null);
-    context.setOpponent(null);
-  };
-  // const alert = (text: string) => {
-  //   setTexts([...texts, text]);
-  // };
+  const [loading, setLoading] = useState(false);
 
-  const attacking = ({ attacker, opponent }: FightProps) => {
-    const nbFace = attacker.attack.value;
-    const atk = rollADie(nbFace);
-    const info = `- ${attacker.name} attaque ${opponent.name} (1D${nbFace}: ${atk}).`;
+  const runRound = () => {
+    alert(`Round ${round} :`);
+    setLoading(true);
 
-    journal.push(info);
-
-    return atk;
+    runTurn({ attacker, opponent })
+      .then((report) => runTurn(report).catch((report) => runEnd(report)))
+      .catch((report) => runEnd(report))
+      .then(() => {
+        setRound(round + 1);
+        setLoading(false);
+      });
   };
 
-  const defending = ({ opponent, atk }: DefendingProps) => {
-    const def = opponent.defense.value;
-    const info = `- ${opponent.name} se défend (dmg:${atk} - def:${def}).`;
+  const runTurn = (report: ReportProps) =>
+    new Promise<ReportProps>((resolve) => {
+      const action = () => {
+        alert(`Tour de ${report.attacker.name} :`);
 
-    journal.push(info);
-
-    return Math.max(0, atk - def);
-  };
-
-  const takeDamage = ({ attacker, opponent, damage }: TakeDamageProps) => {
-    const info = `- Mais ${opponent.name} est blessé ! (-${damage} health).`;
-    const infoMag = `- La magie de ${attacker.name} affecte ${opponent.name} ! (-${damage} health).`;
-    const mag = attacker.magik.value;
-
-    journal.push(info);
-
-    if (damage === mag) {
-      journal.push(infoMag);
-      damage = damage * 2;
-    }
-
-    return {
-      ...opponent,
-      health: {
-        ...opponent.health,
-        value: Math.max(0, opponent.health.value - damage),
-      },
-    };
-  };
-
-  const checkEndgame = ({ attacker, opponent }: FightProps) => {
-    const info = `${opponent.name} est vaincu !`;
-    const defeated = opponent.health.value === 0;
-    const healing = (health: StatProps) => {
-      return {
-        ...health,
-        value: health.max_value ? health.max_value : health.value,
+        attacking(report)
+          .then((report) => defending(report))
+          .then((report) => takeDamage(report))
+          .then((report) => takeExtraDamage(report))
+          .then((report) => resolve(repeatOrNot(report)));
       };
-    };
+      setTimeout(action, 1000);
+    });
 
-    if (defeated) {
-      journal.push(info);
-
+  const runEnd = ({ attacker, opponent }: FightProps) =>
+    new Promise(() => {
       context.updateCharacter({
         ...attacker,
         rank: attacker.rank + 1,
@@ -84,49 +51,106 @@ const Lobby = ({ attacker, opponent }: FightProps) => {
         rank: Math.max(1, opponent.rank - 1),
         health: healing(opponent.health),
       });
-      setEndgame(true);
-    }
+
+      setRound(0);
+    });
+
+  const attacking = ({ damage, ...report }: ReportProps) =>
+    new Promise<ReportProps>((resolve) => {
+      const action = () => {
+        const dice = report.attacker.attack.value;
+        const atk = rollADie(dice);
+        const info = `- ${report.attacker.name} attaque ${report.opponent.name} (1D${dice}: ${atk}).`;
+
+        alert(info);
+        resolve({ damage: atk, ...report });
+      };
+      setTimeout(action, 1000);
+    });
+
+  const defending = ({ damage = 0, ...report }: ReportProps) =>
+    new Promise<ReportProps>((resolve) => {
+      const action = () => {
+        const def = report.opponent.defense.value;
+        const info = `- ${report.opponent.name} se défend (dmg:${damage} - def:${def}).`;
+
+        alert(info);
+        resolve({ damage: Math.max(0, damage - def), ...report });
+      };
+      setTimeout(action, 1000);
+    });
+
+  const takeDamage = ({ opponent, damage = 0, ...report }: ReportProps) =>
+    new Promise<ReportProps>((resolve) => {
+      const action = () => {
+        const info = `- Mais ${opponent.name} est blessé ! (-${damage} health).`;
+        let newOpponent;
+
+        if (damage > 0) {
+          alert(info);
+
+          newOpponent = {
+            ...opponent,
+            health: hurting(opponent.health, damage),
+          };
+          report.strikeback
+            ? context.setAttacker(newOpponent)
+            : context.setOpponent(newOpponent);
+        }
+
+        resolve({ opponent: newOpponent || opponent, ...report });
+      };
+      setTimeout(action, 1000);
+    });
+
+  const takeExtraDamage = ({ opponent, damage = 0, ...report }: ReportProps) =>
+    new Promise<ReportProps>((resolve) => {
+      const action = () => {
+        const mag = report.attacker.magik.value;
+        const info = `- La magie de ${report.attacker.name} affecte ${opponent.name} ! (-${damage} health).`;
+        let newOpponent;
+
+        if (damage > 0 && damage === mag) {
+          alert(info);
+
+          newOpponent = {
+            ...opponent,
+            health: hurting(opponent.health, damage),
+          };
+          report.strikeback
+            ? context.setAttacker(newOpponent)
+            : context.setOpponent(newOpponent);
+        }
+
+        resolve({ opponent: newOpponent || opponent, ...report });
+      };
+      setTimeout(action, 1000);
+    });
+
+  const repeatOrNot = ({ attacker, opponent, strikeback }: ReportProps) =>
+    new Promise<ReportProps>((resolve, reject) => {
+      const action = () => {
+        const defeated = opponent.health.value === 0;
+
+        if (defeated) {
+          alert(`${opponent.name} est vaincu !`);
+
+          reject({ attacker, opponent });
+        } else
+          resolve({
+            attacker: opponent,
+            opponent: attacker,
+            strikeback: !strikeback,
+          });
+      };
+      setTimeout(action, 1000);
+    });
+
+  const back = () => {
+    context.setAttacker(null);
+    context.setOpponent(null);
   };
-
-  const runTurn = ({
-    attacker,
-    opponent,
-    strikeback,
-  }: FightProps & { strikeback?: Boolean }) => {
-    const info = `Tour de ${attacker.name} :`;
-    let atk;
-    let damage;
-
-    journal.push(info);
-
-    atk = attacking({ attacker, opponent });
-    damage = defending({ opponent, atk });
-
-    if (damage > 0) {
-      let newOpponent = takeDamage({ attacker, opponent, damage });
-      strikeback
-        ? context.setAttacker(newOpponent)
-        : context.setOpponent(newOpponent);
-      checkEndgame({ attacker, opponent: newOpponent });
-    }
-  };
-
-  const runRound = () => {
-    const info = `Round ${round} :`;
-
-    journal.push(info);
-
-    runTurn({ attacker, opponent });
-    if (!endgame)
-      runTurn({
-        attacker: opponent,
-        opponent: attacker,
-        strikeback: true,
-      });
-
-    setTexts(texts.concat(journal));
-    setRound(round + 1);
-  };
+  const alert = (text: string) => setTexts((prevTexts) => [...prevTexts, text]);
 
   return (
     <div>
@@ -135,12 +159,12 @@ const Lobby = ({ attacker, opponent }: FightProps) => {
         <FighterItem fighter={opponent} />
       </div>
       <Modal texts={texts} />
-      {endgame ? (
+      {round === 0 ? (
         <button className="mx-4" onClick={back}>
           Retour
         </button>
       ) : (
-        <button className="mx-4" onClick={runRound}>
+        <button className="mx-4" onClick={runRound} disabled={loading}>
           Attaquer
         </button>
       )}
