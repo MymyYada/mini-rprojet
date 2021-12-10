@@ -1,19 +1,19 @@
 import React from "react";
 import { useAppContext } from "../../app/AppContext";
 import Button from "../Button";
-import CharacterItem from "./Item";
+import Character from "../Character";
 import { CharacterProps } from "./types";
 
-const Character = () => {
+const CharacterList = () => {
   const context = useAppContext();
 
   return (
     <div>
-      <div>Personnages</div>
-      <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <h1 className="mb-6">Personnages</h1>
+      <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 mb-6">
         {context.characters.length > 0 &&
           context.characters.map((character: CharacterProps) => (
-            <CharacterItem key={character.id} {...character} />
+            <Character key={character.id} {...character} />
           ))}
       </ul>
       <Button
@@ -31,4 +31,4 @@ const Character = () => {
   );
 };
 
-export default Character;
+export default CharacterList;

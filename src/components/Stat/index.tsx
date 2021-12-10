@@ -1,6 +1,6 @@
-import { costCalc } from "../../../app/utils";
-import Button from "../../ButtonStat";
-import { ChangeProps, StatProps } from "../types";
+import { costCalc } from "../../app/utils";
+import { ChangeProps, StatProps } from "../CharacterList/types";
+import Button from "./Button";
 
 const Stat = ({
   stat,
