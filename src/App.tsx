@@ -15,8 +15,8 @@ function App() {
     <div className="App">
       <GradientText text="Bonjour" />
 
-      {context.attacker && context.opponent ? (
-        <Lobby attacker={context.attacker} opponent={context.opponent} />
+      {context.fighters.length === 2 ? (
+        <Lobby attacker={context.fighters[0]} opponent={context.fighters[1]} />
       ) : (
         <Character />
       )}

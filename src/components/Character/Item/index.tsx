@@ -59,10 +59,8 @@ const CharacterItem = ({ ...characterProps }: CharacterProps) => {
           <button
             className="mx-4 my-2"
             onClick={() => {
-              context.setAttacker(character);
-              context.setOpponent(findOpponent(character, context.characters));
-              //TODO: context.setOpponent() déclenche le refresh, context.findOpponent() non
-              // context.findOpponent();
+              const opponent = findOpponent(character, context.characters);
+              if (opponent) context.setFighters([character, opponent]);
             }}
           >
             Combattre

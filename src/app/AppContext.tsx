@@ -12,34 +12,24 @@ import {
   CharacterResponse,
   StatType,
 } from "../components/Character/types";
-// import { randBetween } from "./utils";
 
 type AppContextType = {
   characters: CharacterProps[];
-  attacker: CharacterProps | null;
-  opponent: CharacterProps | null;
-  setAttacker: React.Dispatch<React.SetStateAction<CharacterProps | null>>;
-  setOpponent: React.Dispatch<React.SetStateAction<CharacterProps | null>>;
-  // findOpponent: () => void;
+  fighters: CharacterProps[];
+  setFighters: React.Dispatch<React.SetStateAction<CharacterProps[]>>;
   getAllCharacters: () => void;
   addCharacter: (character: CharacterRequest) => void;
   updateCharacter: (character: CharacterProps) => void;
   removeCharacter: (id: CharacterProps["id"]) => void;
+  updateFighter: (fighter: CharacterProps) => void;
 };
 
 const AppContext = React.createContext<AppContextType>({
   characters: [],
-  attacker: null,
-  opponent: null,
-  setAttacker: () => {
+  fighters: [],
+  setFighters: () => {
     // initially empty
   },
-  setOpponent: () => {
-    // initially empty
-  },
-  // findOpponent: () => {
-  //   // initially empty
-  // },
   getAllCharacters: () => {
     // initially empty
   },
@@ -52,12 +42,14 @@ const AppContext = React.createContext<AppContextType>({
   removeCharacter: () => {
     // initially empty
   },
+  updateFighter: () => {
+    // initially empty
+  },
 });
 
 export const AppProvider: React.FunctionComponent = ({ children }) => {
   const [characters, setCharacters] = useState([]);
-  const [attacker, setAttacker] = useState<CharacterProps | null>(null);
-  const [opponent, setOpponent] = useState<CharacterProps | null>(null);
+  const [fighters, setFighters] = useState<CharacterProps[]>([]);
   const getAllCharacters = useCallback(async () => {
     fetch("/characters/all")
       .then((response) => {
@@ -85,7 +77,6 @@ export const AppProvider: React.FunctionComponent = ({ children }) => {
             };
           }
         );
-        console.log(data);
         setCharacters(data);
       })
       .catch((error) =>
@@ -114,10 +105,7 @@ export const AppProvider: React.FunctionComponent = ({ children }) => {
         }),
       };
       fetch("/characters/create", settings)
-        .then((res) => {
-          console.log(res);
-          getAllCharacters();
-        })
+        .then(() => getAllCharacters())
         .catch((error) =>
           console.error(`There was an error creating the character: ${error}`)
         );
@@ -142,10 +130,7 @@ export const AppProvider: React.FunctionComponent = ({ children }) => {
         }),
       };
       fetch("/characters/update", settings)
-        .then((res) => {
-          console.log(res);
-          getAllCharacters();
-        })
+        .then(() => getAllCharacters())
         .catch((error) =>
           console.error(`There was an error updating the character: ${error}`)
         );
@@ -163,33 +148,23 @@ export const AppProvider: React.FunctionComponent = ({ children }) => {
         body: JSON.stringify({ id }),
       };
       fetch("/characters/delete", settings)
-        .then((res) => {
-          console.log(res);
-          getAllCharacters();
-        })
+        .then(() => getAllCharacters())
         .catch((error) =>
           console.error(`There was an error removing the character: ${error}`)
         );
     },
     [getAllCharacters]
   );
-  // const findOpponent = useCallback(() => {
-  //   if (attacker === null) return null;
+  const updateFighter = useCallback(
+    (character: CharacterProps) => {
+      const newFighters = [...fighters];
+      const id = fighters.findIndex((fighter) => fighter.id === character.id);
 
-  //   const opponents = characters.filter(
-  //     (character: CharacterProps) =>
-  //       character.available && character.id !== attacker.id
-  //   );
-  //   const opponent =
-  //     opponents.length > 0
-  //       ? opponents[randBetween({ max: opponents.length })]
-  //       : null;
-
-  //   console.log(opponents);
-  //   console.log(opponent);
-
-  //   setOpponent(opponent);
-  // }, [attacker, characters]);
+      newFighters[id] = character;
+      setFighters(newFighters);
+    },
+    [fighters]
+  );
 
   useEffect(() => {
     getAllCharacters();
@@ -198,27 +173,23 @@ export const AppProvider: React.FunctionComponent = ({ children }) => {
   const MemoValue = useMemo(
     () => ({
       characters,
-      attacker,
-      opponent,
-      setAttacker,
-      setOpponent,
-      // findOpponent,
+      fighters,
+      setFighters,
       getAllCharacters,
       addCharacter,
       updateCharacter,
       removeCharacter,
+      updateFighter,
     }),
     [
       characters,
-      attacker,
-      opponent,
-      setAttacker,
-      setOpponent,
-      // findOpponent,
+      fighters,
+      setFighters,
       getAllCharacters,
       addCharacter,
       updateCharacter,
       removeCharacter,
+      updateFighter,
     ]
   );
 

@@ -60,7 +60,7 @@ const Lobby = ({ attacker, opponent }: FightProps) => {
       const action = () => {
         const dice = report.attacker.attack.value;
         const atk = rollADie(dice);
-        const info = `- ${report.attacker.name} attaque ${report.opponent.name} (1D${dice}: ${atk}).`;
+        const info = `${report.attacker.name} attaque ${report.opponent.name} (1D${dice}: ${atk}).`;
 
         alert(info);
         resolve({ damage: atk, ...report });
@@ -72,7 +72,7 @@ const Lobby = ({ attacker, opponent }: FightProps) => {
     new Promise<ReportProps>((resolve) => {
       const action = () => {
         const def = report.opponent.defense.value;
-        const info = `- ${report.opponent.name} se défend (dmg:${damage} - def:${def}).`;
+        const info = `${report.opponent.name} se défend (dmg:${damage} - def:${def}).`;
 
         alert(info);
         resolve({ damage: Math.max(0, damage - def), ...report });
@@ -83,22 +83,19 @@ const Lobby = ({ attacker, opponent }: FightProps) => {
   const takeDamage = ({ opponent, damage = 0, ...report }: ReportProps) =>
     new Promise<ReportProps>((resolve) => {
       const action = () => {
-        const info = `- Mais ${opponent.name} est blessé ! (-${damage} health).`;
-        let newOpponent;
+        const info = `Mais ${opponent.name} est blessé ! (-${damage} health).`;
 
         if (damage > 0) {
           alert(info);
 
-          newOpponent = {
+          opponent = {
             ...opponent,
             health: hurting(opponent.health, damage),
           };
-          report.strikeback
-            ? context.setAttacker(newOpponent)
-            : context.setOpponent(newOpponent);
+          context.updateFighter(opponent);
         }
 
-        resolve({ opponent: newOpponent || opponent, ...report });
+        resolve({ opponent, ...report });
       };
       setTimeout(action, 1000);
     });
@@ -107,27 +104,24 @@ const Lobby = ({ attacker, opponent }: FightProps) => {
     new Promise<ReportProps>((resolve) => {
       const action = () => {
         const mag = report.attacker.magik.value;
-        const info = `- La magie de ${report.attacker.name} affecte ${opponent.name} ! (-${damage} health).`;
-        let newOpponent;
+        const info = `La magie de ${report.attacker.name} affecte ${opponent.name} ! (-${damage} health).`;
 
         if (damage > 0 && damage === mag) {
           alert(info);
 
-          newOpponent = {
+          opponent = {
             ...opponent,
             health: hurting(opponent.health, damage),
           };
-          report.strikeback
-            ? context.setAttacker(newOpponent)
-            : context.setOpponent(newOpponent);
+          context.updateFighter(opponent);
         }
 
-        resolve({ opponent: newOpponent || opponent, ...report });
+        resolve({ opponent, ...report });
       };
       setTimeout(action, 1000);
     });
 
-  const repeatOrNot = ({ attacker, opponent, strikeback }: ReportProps) =>
+  const repeatOrNot = ({ attacker, opponent }: ReportProps) =>
     new Promise<ReportProps>((resolve, reject) => {
       const action = () => {
         const defeated = opponent.health.value === 0;
@@ -140,16 +134,12 @@ const Lobby = ({ attacker, opponent }: FightProps) => {
           resolve({
             attacker: opponent,
             opponent: attacker,
-            strikeback: !strikeback,
           });
       };
       setTimeout(action, 1000);
     });
 
-  const back = () => {
-    context.setAttacker(null);
-    context.setOpponent(null);
-  };
+  const back = () => context.setFighters([]);
   const alert = (text: string) => setTexts((prevTexts) => [...prevTexts, text]);
 
   return (

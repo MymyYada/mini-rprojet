@@ -9,5 +9,4 @@ export type ReportProps = {
   attacker: FightProps["attacker"];
   opponent: FightProps["opponent"];
   damage?: number;
-  strikeback?: Boolean;
 };

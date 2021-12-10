@@ -16,13 +16,7 @@ export const costCalc = (stat: StatProps, alt: number) => {
   return alt;
 };
 
-export const randBetween = ({
-  min = 0,
-  max,
-}: {
-  min?: number;
-  max: number;
-}) => {
+const randBetween = ({ min = 0, max }: { min?: number; max: number }) => {
   return Math.floor(Math.random() * max) + min;
 };
 
@@ -44,9 +38,6 @@ export const findOpponent = (
     opponents.length > 0
       ? opponents[randBetween({ max: opponents.length })]
       : null;
-
-  console.log(opponents);
-  console.log(opponent);
 
   return opponent;
 };
