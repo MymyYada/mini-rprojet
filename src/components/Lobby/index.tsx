@@ -60,7 +60,7 @@ const Lobby = ({ attacker, opponent }: FightProps) => {
       const action = () => {
         const dice = report.attacker.attack.value;
         const atk = rollADie(dice);
-        const info = `- ${report.attacker.name} attaque ${report.opponent.name} (1D${dice}: ${atk}).`;
+        const info = `${report.attacker.name} attaque ${report.opponent.name} (1D${dice}: ${atk}).`;
 
         alert(info);
         resolve({ damage: atk, ...report });
@@ -72,7 +72,7 @@ const Lobby = ({ attacker, opponent }: FightProps) => {
     new Promise<ReportProps>((resolve) => {
       const action = () => {
         const def = report.opponent.defense.value;
-        const info = `- ${report.opponent.name} se défend (dmg:${damage} - def:${def}).`;
+        const info = `${report.opponent.name} se défend (dmg:${damage} - def:${def}).`;
 
         alert(info);
         resolve({ damage: Math.max(0, damage - def), ...report });
@@ -83,7 +83,7 @@ const Lobby = ({ attacker, opponent }: FightProps) => {
   const takeDamage = ({ opponent, damage = 0, ...report }: ReportProps) =>
     new Promise<ReportProps>((resolve) => {
       const action = () => {
-        const info = `- Mais ${opponent.name} est blessé ! (-${damage} health).`;
+        const info = `Mais ${opponent.name} est blessé ! (-${damage} health).`;
 
         if (damage > 0) {
           alert(info);
@@ -104,7 +104,7 @@ const Lobby = ({ attacker, opponent }: FightProps) => {
     new Promise<ReportProps>((resolve) => {
       const action = () => {
         const mag = report.attacker.magik.value;
-        const info = `- La magie de ${report.attacker.name} affecte ${opponent.name} ! (-${damage} health).`;
+        const info = `La magie de ${report.attacker.name} affecte ${opponent.name} ! (-${damage} health).`;
 
         if (damage > 0 && damage === mag) {
           alert(info);
