@@ -15,24 +15,19 @@ import {
 
 type AppContextType = {
   characters: CharacterProps[];
-  attacker: CharacterProps | null;
-  opponent: CharacterProps | null;
-  setAttacker: React.Dispatch<React.SetStateAction<CharacterProps | null>>;
-  setOpponent: React.Dispatch<React.SetStateAction<CharacterProps | null>>;
+  fighters: CharacterProps[];
+  setFighters: React.Dispatch<React.SetStateAction<CharacterProps[]>>;
   getAllCharacters: () => void;
   addCharacter: (character: CharacterRequest) => void;
   updateCharacter: (character: CharacterProps) => void;
   removeCharacter: (id: CharacterProps["id"]) => void;
+  updateFighter: (fighter: CharacterProps) => void;
 };
 
 const AppContext = React.createContext<AppContextType>({
   characters: [],
-  attacker: null,
-  opponent: null,
-  setAttacker: () => {
-    // initially empty
-  },
-  setOpponent: () => {
+  fighters: [],
+  setFighters: () => {
     // initially empty
   },
   getAllCharacters: () => {
@@ -47,12 +42,14 @@ const AppContext = React.createContext<AppContextType>({
   removeCharacter: () => {
     // initially empty
   },
+  updateFighter: () => {
+    // initially empty
+  },
 });
 
 export const AppProvider: React.FunctionComponent = ({ children }) => {
   const [characters, setCharacters] = useState([]);
-  const [attacker, setAttacker] = useState<CharacterProps | null>(null);
-  const [opponent, setOpponent] = useState<CharacterProps | null>(null);
+  const [fighters, setFighters] = useState<CharacterProps[]>([]);
   const getAllCharacters = useCallback(async () => {
     fetch("/characters/all")
       .then((response) => {
@@ -168,6 +165,18 @@ export const AppProvider: React.FunctionComponent = ({ children }) => {
     },
     [getAllCharacters]
   );
+  const updateFighter = useCallback(
+    (character: CharacterProps) => {
+      const newFighters = fighters;
+      const id = fighters.findIndex((fighter) => fighter.id === character.id);
+
+      newFighters[id] = character;
+      setFighters(newFighters);
+
+      console.log(fighters);
+    },
+    [fighters]
+  );
 
   useEffect(() => {
     getAllCharacters();
@@ -176,25 +185,23 @@ export const AppProvider: React.FunctionComponent = ({ children }) => {
   const MemoValue = useMemo(
     () => ({
       characters,
-      attacker,
-      opponent,
-      setAttacker,
-      setOpponent,
+      fighters,
+      setFighters,
       getAllCharacters,
       addCharacter,
       updateCharacter,
       removeCharacter,
+      updateFighter,
     }),
     [
       characters,
-      attacker,
-      opponent,
-      setAttacker,
-      setOpponent,
+      fighters,
+      setFighters,
       getAllCharacters,
       addCharacter,
       updateCharacter,
       removeCharacter,
+      updateFighter,
     ]
   );
 

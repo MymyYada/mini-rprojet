@@ -84,21 +84,19 @@ const Lobby = ({ attacker, opponent }: FightProps) => {
     new Promise<ReportProps>((resolve) => {
       const action = () => {
         const info = `- Mais ${opponent.name} est blessé ! (-${damage} health).`;
-        let newOpponent;
 
         if (damage > 0) {
           alert(info);
 
-          newOpponent = {
+          opponent = {
             ...opponent,
             health: hurting(opponent.health, damage),
           };
-          report.strikeback
-            ? context.setAttacker(newOpponent)
-            : context.setOpponent(newOpponent);
+          context.updateFighter(opponent);
+          context.setFighters([opponent, opponent]);
         }
 
-        resolve({ opponent: newOpponent || opponent, ...report });
+        resolve({ opponent, ...report });
       };
       setTimeout(action, 1000);
     });
@@ -108,26 +106,23 @@ const Lobby = ({ attacker, opponent }: FightProps) => {
       const action = () => {
         const mag = report.attacker.magik.value;
         const info = `- La magie de ${report.attacker.name} affecte ${opponent.name} ! (-${damage} health).`;
-        let newOpponent;
 
         if (damage > 0 && damage === mag) {
           alert(info);
 
-          newOpponent = {
+          opponent = {
             ...opponent,
             health: hurting(opponent.health, damage),
           };
-          report.strikeback
-            ? context.setAttacker(newOpponent)
-            : context.setOpponent(newOpponent);
+          context.updateFighter(opponent);
         }
 
-        resolve({ opponent: newOpponent || opponent, ...report });
+        resolve({ opponent, ...report });
       };
       setTimeout(action, 1000);
     });
 
-  const repeatOrNot = ({ attacker, opponent, strikeback }: ReportProps) =>
+  const repeatOrNot = ({ attacker, opponent }: ReportProps) =>
     new Promise<ReportProps>((resolve, reject) => {
       const action = () => {
         const defeated = opponent.health.value === 0;
@@ -140,16 +135,12 @@ const Lobby = ({ attacker, opponent }: FightProps) => {
           resolve({
             attacker: opponent,
             opponent: attacker,
-            strikeback: !strikeback,
           });
       };
       setTimeout(action, 1000);
     });
 
-  const back = () => {
-    context.setAttacker(null);
-    context.setOpponent(null);
-  };
+  const back = () => context.setFighters([]);
   const alert = (text: string) => setTexts((prevTexts) => [...prevTexts, text]);
 
   return (
