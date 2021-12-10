@@ -144,22 +144,24 @@ const Lobby = ({ attacker, opponent }: FightProps) => {
   const alert = (text: string) => setTexts((prevTexts) => [...prevTexts, text]);
 
   return (
-    <div>
-      <ul className="grid grid-cols-1 gap-6 lg:grid-cols-2 mb-6">
-        <FighterItem fighter={attacker} />
-        <FighterItem fighter={opponent} />
-      </ul>
+    <div className="flex">
+      <div>
+        <ul className="grid grid-cols-1 gap-6 lg:grid-cols-2 mb-6">
+          <FighterItem fighter={attacker} />
+          <FighterItem fighter={opponent} />
+        </ul>
+        {round === 0 ? (
+          <Button label="Retour" onClick={back} />
+        ) : (
+          <Button
+            label="Attaquer"
+            icon="fist-raised"
+            onClick={runRound}
+            disabled={loading}
+          />
+        )}
+      </div>
       <Modal texts={texts} />
-      {round === 0 ? (
-        <Button label="Retour" onClick={back} />
-      ) : (
-        <Button
-          label="Attaquer"
-          icon="fist-raised"
-          onClick={runRound}
-          disabled={loading}
-        />
-      )}
     </div>
   );
 };
