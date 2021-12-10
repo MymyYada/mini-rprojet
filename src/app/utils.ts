@@ -2,7 +2,7 @@ import {
   CharacterProps,
   StatProps,
   StatType,
-} from "../components/Character/types";
+} from "../components/CharacterList/types";
 
 export const costCalc = (stat: StatProps, alt: number) => {
   if (stat.type !== StatType.health) {

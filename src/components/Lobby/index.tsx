@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAppContext } from "../../app/AppContext";
 import { healing, hurting, rollADie } from "../../app/utils";
+import Button from "../Button";
 import FighterItem from "./FighterItem";
 import Modal from "./Modal";
 import { FightProps, ReportProps } from "./types";
@@ -143,21 +144,24 @@ const Lobby = ({ attacker, opponent }: FightProps) => {
   const alert = (text: string) => setTexts((prevTexts) => [...prevTexts, text]);
 
   return (
-    <div>
-      <div className="flex">
-        <FighterItem fighter={attacker} />
-        <FighterItem fighter={opponent} />
+    <div className="flex">
+      <div>
+        <ul className="grid grid-cols-1 gap-6 lg:grid-cols-2 mb-6">
+          <FighterItem fighter={attacker} />
+          <FighterItem fighter={opponent} />
+        </ul>
+        {round === 0 ? (
+          <Button label="Retour" onClick={back} />
+        ) : (
+          <Button
+            label="Attaquer"
+            icon="fist-raised"
+            onClick={runRound}
+            disabled={loading}
+          />
+        )}
       </div>
       <Modal texts={texts} />
-      {round === 0 ? (
-        <button className="mx-4" onClick={back}>
-          Retour
-        </button>
-      ) : (
-        <button className="mx-4" onClick={runRound} disabled={loading}>
-          Attaquer
-        </button>
-      )}
     </div>
   );
 };

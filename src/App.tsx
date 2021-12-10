@@ -4,21 +4,20 @@ import {
   AppProvider as AppContextProvider,
   useAppContext,
 } from "./app/AppContext";
-import Character from "./components/Character";
-import { GradientText } from "./components/GradientText";
+import CharacterList from "./components/CharacterList";
 import Lobby from "./components/Lobby";
+import Navbar from "./components/Navbar";
 
 function App() {
   const context = useAppContext();
 
   return (
-    <div className="App">
-      <GradientText text="Bonjour" />
-
+    <div className="p-10 min-h-screen flex items-center justify-center bg-gray-50">
+      <Navbar />
       {context.fighters.length === 2 ? (
         <Lobby attacker={context.fighters[0]} opponent={context.fighters[1]} />
       ) : (
-        <Character />
+        <CharacterList />
       )}
     </div>
   );

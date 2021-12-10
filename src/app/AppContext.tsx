@@ -11,7 +11,7 @@ import {
   CharacterRequest,
   CharacterResponse,
   StatType,
-} from "../components/Character/types";
+} from "../components/CharacterList/types";
 
 type AppContextType = {
   characters: CharacterProps[];

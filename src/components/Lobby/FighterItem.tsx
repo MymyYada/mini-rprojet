@@ -1,14 +1,25 @@
-import { CharacterProps } from "../Character/types";
+import Card from "../Card";
+import Stat from "../Card/Stat";
+import { CharacterProps } from "../CharacterList/types";
 
 const FighterItem = ({ fighter }: { fighter: CharacterProps }) => {
   return (
-    <div>
-      <div className="m-8">{`name: ${fighter.name}`}</div>
-      <div className="m-8">{`${fighter.health.type}: ${fighter.health.value}/${fighter.health.max_value}`}</div>
-      <div className="m-8">{`${fighter.attack.type}: ${fighter.attack.value}`}</div>
-      <div className="m-8">{`${fighter.defense.type}: ${fighter.defense.value}`}</div>
-      <div className="m-8">{`${fighter.magik.type}: ${fighter.magik.value}`}</div>
-    </div>
+    <Card {...fighter}>
+      <div className="-mt-px flex divide-x divide-gray-200">
+        <div className="w-full flex flex-col px-6 py-4">
+          <Stat icon="level-up-alt" label={`Exp. ${fighter.skill_pts}`} />
+          <Stat
+            icon="heart"
+            label={`Santé: ${fighter.health.value}${
+              fighter.health.max_value ? `/${fighter.health.max_value}` : ``
+            }`}
+          />
+          <Stat icon="fist-raised" label={`Attaque: ${fighter.attack.value}`} />
+          <Stat icon="shield-alt" label={`Défense: ${fighter.defense.value}`} />
+          <Stat icon="fire" label={`Magie: ${fighter.magik.value}`} />
+        </div>
+      </div>
+    </Card>
   );
 };
 
