@@ -1,3 +1,12 @@
+# Lancer le projet
+
+Ce projet utilise [yarn](https://classic.yarnpkg.com/lang/en/docs/install/#windows-stable), qui doit être installé globalement.
+
+## Pour installer :
+- Cloner le projet avec `git clone https://github.com/MymyYada/mini-rprojet.git`
+- Lancer la commande `yarn` à la racine du projet
+- Lancer la commande `yarn start`
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
