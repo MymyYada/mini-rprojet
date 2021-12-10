@@ -1,4 +1,4 @@
-import { CharacterProps } from "../Character/types";
+import { CharacterProps } from "../CharacterList/types";
 
 export type FightProps = {
   attacker: CharacterProps;

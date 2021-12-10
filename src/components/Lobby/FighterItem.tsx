@@ -1,4 +1,4 @@
-import { CharacterProps } from "../Character/types";
+import { CharacterProps } from "../CharacterList/types";
 
 const FighterItem = ({ fighter }: { fighter: CharacterProps }) => {
   return (

@@ -10,10 +10,12 @@ const Character = () => {
   return (
     <div>
       <div>Personnages</div>
-      {context.characters.length > 0 &&
-        context.characters.map((character: CharacterProps) => (
-          <CharacterItem key={character.id} {...character} />
-        ))}
+      <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {context.characters.length > 0 &&
+          context.characters.map((character: CharacterProps) => (
+            <CharacterItem key={character.id} {...character} />
+          ))}
+      </ul>
       <Button
         label="Ajouter"
         icon="user-plus"
