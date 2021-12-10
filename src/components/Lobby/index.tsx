@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useAppContext } from "../../app/AppContext";
-import { rollADie } from "../../app/utils";
-import { StatProps } from "../Character/types";
+import { healing, hurting, rollADie } from "../../app/utils";
 import FighterItem from "./FighterItem";
 import Modal from "./Modal";
 import { FightProps, ReportProps } from "./types";
@@ -26,24 +25,17 @@ const Lobby = ({ attacker, opponent }: FightProps) => {
       const action = () => {
         alert(`Tour de ${report.attacker.name} :`);
 
-        attacking(report).then((report) =>
-          defending(report).then((report) =>
-            takeDamage(report).then((report) => resolve(repeatOrNot(report)))
-          )
-        );
+        attacking(report)
+          .then((report) => defending(report))
+          .then((report) => takeDamage(report))
+          .then((report) => takeExtraDamage(report))
+          .then((report) => resolve(repeatOrNot(report)));
       };
       setTimeout(action, 1000);
     });
 
   const runEnd = ({ attacker, opponent }: FightProps) =>
     new Promise(() => {
-      const healing = (health: StatProps) => {
-        return {
-          ...health,
-          value: health.max_value ? health.max_value : health.value,
-        };
-      };
-
       context.updateCharacter({
         ...attacker,
         rank: attacker.rank + 1,
@@ -84,32 +76,49 @@ const Lobby = ({ attacker, opponent }: FightProps) => {
       setTimeout(action, 1000);
     });
 
-  const takeDamage = ({ opponent, ...report }: ReportProps) =>
+  const takeDamage = ({ opponent, damage = 0, ...report }: ReportProps) =>
+    new Promise<ReportProps>((resolve) => {
+      const action = () => {
+        const info = `- Mais ${opponent.name} est blessé ! (-${damage} health).`;
+        let newOpponent;
+
+        if (damage > 0) {
+          alert(info);
+
+          newOpponent = {
+            ...opponent,
+            health: hurting(opponent.health, damage),
+          };
+          report.strikeback
+            ? context.setAttacker(newOpponent)
+            : context.setOpponent(newOpponent);
+        }
+
+        resolve({ opponent: newOpponent || opponent, ...report });
+      };
+      setTimeout(action, 1000);
+    });
+
+  const takeExtraDamage = ({ opponent, damage = 0, ...report }: ReportProps) =>
     new Promise<ReportProps>((resolve) => {
       const action = () => {
         const mag = report.attacker.magik.value;
-        const info = `- Mais ${opponent.name} est blessé ! (-${report.damage} health).`;
-        const infoMag = `- La magie de ${report.attacker.name} affecte ${opponent.name} ! (-${report.damage} health).`;
+        const info = `- La magie de ${report.attacker.name} affecte ${opponent.name} ! (-${damage} health).`;
         let newOpponent;
 
-        alert(info);
+        if (damage > 0 && damage === mag) {
+          alert(info);
 
-        if (report.damage === mag) {
-          alert(infoMag);
-          report.damage = report.damage * 2;
+          newOpponent = {
+            ...opponent,
+            health: hurting(opponent.health, damage),
+          };
+          report.strikeback
+            ? context.setAttacker(newOpponent)
+            : context.setOpponent(newOpponent);
         }
-        newOpponent = {
-          ...opponent,
-          health: {
-            ...opponent.health,
-            value: Math.max(0, opponent.health.value - (report.damage || 0)),
-          },
-        };
-        report.strikeback
-          ? context.setAttacker(newOpponent)
-          : context.setOpponent(newOpponent);
 
-        resolve({ opponent: newOpponent, ...report });
+        resolve({ opponent: newOpponent || opponent, ...report });
       };
       setTimeout(action, 1000);
     });
@@ -137,10 +146,7 @@ const Lobby = ({ attacker, opponent }: FightProps) => {
     context.setAttacker(null);
     context.setOpponent(null);
   };
-  const alert = (text: string) => {
-    setTexts([...texts, text]);
-    console.log(text);
-  };
+  const alert = (text: string) => setTexts((prevTexts) => [...prevTexts, text]);
 
   return (
     <div>
