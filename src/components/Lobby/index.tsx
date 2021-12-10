@@ -92,8 +92,8 @@ const Lobby = ({ attacker, opponent }: FightProps) => {
             ...opponent,
             health: hurting(opponent.health, damage),
           };
-          context.updateFighter(opponent);
-          context.setFighters([opponent, opponent]);
+          context.updateFighter(opponent); //TODO: doesn't work. why. ._.
+          // context.setFighters([opponent, opponent]);
         }
 
         resolve({ opponent, ...report });
