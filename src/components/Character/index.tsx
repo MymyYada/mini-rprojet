@@ -16,6 +16,7 @@ const Character = () => {
         ))}
       <Button
         label="Ajouter"
+        icon="user-plus"
         onClick={() =>
           context.addCharacter({
             name: `Bob${

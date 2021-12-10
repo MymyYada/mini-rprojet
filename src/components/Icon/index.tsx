@@ -1,13 +1,13 @@
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
-  faBars,
-  faCog,
-  faPlay,
-  faStepBackward,
-  faStepForward,
+  faCheck,
+  faMinus,
+  faPlus,
+  faTrashAlt,
+  faUserPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-library.add(faCog, faBars, faPlay, faStepBackward, faStepForward);
+library.add(faPlus, faMinus, faTrashAlt, faUserPlus, faCheck);
 
 export default FontAwesomeIcon;

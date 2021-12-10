@@ -49,6 +49,7 @@ const CharacterItem = ({ ...characterProps }: CharacterProps) => {
           {character.skill_pts !== characterTemp.skill_pts && (
             <Button
               label="Update"
+              icon="check"
               onClick={() => {
                 context.updateCharacter(character);
                 setCharacterTemp(character);
@@ -64,6 +65,8 @@ const CharacterItem = ({ ...characterProps }: CharacterProps) => {
           />
           <Button
             label="Supprimer"
+            icon="trash-alt"
+            color="red"
             onClick={() => context.removeCharacter(character.id)}
           />
         </div>

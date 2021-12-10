@@ -26,8 +26,8 @@ const Stat = ({
         {`${stat.type}: ${stat.value}`}
         {stat.max_value && `/${stat.max_value}`}
       </div>
-      <Button icon="cog" onClick={() => changeStat(+1)} />
-      <Button icon="play" onClick={() => changeStat(-1)} />
+      <Button icon="plus" onClick={() => changeStat(+1)} />
+      <Button icon="minus" onClick={() => changeStat(-1)} />
     </div>
   );
 };
