@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAppContext } from "../../app/AppContext";
 import { healing, hurting, rollADie } from "../../app/utils";
+import Button from "../Button";
 import FighterItem from "./FighterItem";
 import Modal from "./Modal";
 import { FightProps, ReportProps } from "./types";
@@ -150,13 +151,14 @@ const Lobby = ({ attacker, opponent }: FightProps) => {
       </div>
       <Modal texts={texts} />
       {round === 0 ? (
-        <button className="mx-4" onClick={back}>
-          Retour
-        </button>
+        <Button label="Retour" onClick={back} />
       ) : (
-        <button className="mx-4" onClick={runRound} disabled={loading}>
-          Attaquer
-        </button>
+        <Button
+          label="Attaquer"
+          icon="cog"
+          onClick={runRound}
+          disabled={loading}
+        />
       )}
     </div>
   );

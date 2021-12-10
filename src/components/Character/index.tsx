@@ -1,5 +1,6 @@
 import React from "react";
 import { useAppContext } from "../../app/AppContext";
+import Button from "../Button";
 import CharacterItem from "./Item";
 import { CharacterProps } from "./types";
 
@@ -13,7 +14,8 @@ const Character = () => {
         context.characters.map((character: CharacterProps) => (
           <CharacterItem key={character.id} {...character} />
         ))}
-      <button
+      <Button
+        label="Ajouter"
         onClick={() =>
           context.addCharacter({
             name: `Bob${
@@ -21,9 +23,7 @@ const Character = () => {
             }`,
           })
         }
-      >
-        Ajouter
-      </button>
+      />
     </div>
   );
 };

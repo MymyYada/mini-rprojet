@@ -1,4 +1,5 @@
 import { costCalc } from "../../../app/utils";
+import Button from "../../ButtonStat";
 import { ChangeProps, StatProps } from "../types";
 
 const Stat = ({
@@ -25,12 +26,8 @@ const Stat = ({
         {`${stat.type}: ${stat.value}`}
         {stat.max_value && `/${stat.max_value}`}
       </div>
-      <button className="mx-4" onClick={() => changeStat(+1)}>
-        +
-      </button>
-      <button className="mx-4" onClick={() => changeStat(-1)}>
-        -
-      </button>
+      <Button icon="cog" onClick={() => changeStat(+1)} />
+      <Button icon="play" onClick={() => changeStat(-1)} />
     </div>
   );
 };

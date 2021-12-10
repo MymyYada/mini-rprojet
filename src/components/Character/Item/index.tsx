@@ -2,6 +2,7 @@ import { DateTime } from "luxon";
 import { useState } from "react";
 import { useAppContext } from "../../../app/AppContext";
 import { findOpponent } from "../../../app/utils";
+import Button from "../../Button";
 import { ChangeProps, CharacterProps } from "../types";
 import Stat from "./Stat";
 
@@ -46,31 +47,25 @@ const CharacterItem = ({ ...characterProps }: CharacterProps) => {
 
         <div className="flex flex-col ml-24">
           {character.skill_pts !== characterTemp.skill_pts && (
-            <button
-              className="mx-4 my-2"
+            <Button
+              label="Update"
               onClick={() => {
                 context.updateCharacter(character);
                 setCharacterTemp(character);
               }}
-            >
-              Update
-            </button>
+            />
           )}
-          <button
-            className="mx-4 my-2"
+          <Button
+            label="Combattre"
             onClick={() => {
               const opponent = findOpponent(character, context.characters);
               if (opponent) context.setFighters([character, opponent]);
             }}
-          >
-            Combattre
-          </button>
-          <button
-            className="mx-4 my-2"
+          />
+          <Button
+            label="Supprimer"
             onClick={() => context.removeCharacter(character.id)}
-          >
-            Supprimer
-          </button>
+          />
         </div>
       </div>
     </div>
