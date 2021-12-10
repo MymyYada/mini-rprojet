@@ -77,7 +77,6 @@ export const AppProvider: React.FunctionComponent = ({ children }) => {
             };
           }
         );
-        console.log(data);
         setCharacters(data);
       })
       .catch((error) =>
@@ -106,10 +105,7 @@ export const AppProvider: React.FunctionComponent = ({ children }) => {
         }),
       };
       fetch("/characters/create", settings)
-        .then((res) => {
-          console.log(res);
-          getAllCharacters();
-        })
+        .then(() => getAllCharacters())
         .catch((error) =>
           console.error(`There was an error creating the character: ${error}`)
         );
@@ -134,10 +130,7 @@ export const AppProvider: React.FunctionComponent = ({ children }) => {
         }),
       };
       fetch("/characters/update", settings)
-        .then((res) => {
-          console.log(res);
-          getAllCharacters();
-        })
+        .then(() => getAllCharacters())
         .catch((error) =>
           console.error(`There was an error updating the character: ${error}`)
         );
@@ -155,10 +148,7 @@ export const AppProvider: React.FunctionComponent = ({ children }) => {
         body: JSON.stringify({ id }),
       };
       fetch("/characters/delete", settings)
-        .then((res) => {
-          console.log(res);
-          getAllCharacters();
-        })
+        .then(() => getAllCharacters())
         .catch((error) =>
           console.error(`There was an error removing the character: ${error}`)
         );

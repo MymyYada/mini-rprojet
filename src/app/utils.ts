@@ -39,9 +39,6 @@ export const findOpponent = (
       ? opponents[randBetween({ max: opponents.length })]
       : null;
 
-  console.log(opponents);
-  console.log(opponent);
-
   return opponent;
 };
 
