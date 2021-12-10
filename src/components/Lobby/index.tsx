@@ -9,15 +9,19 @@ const Lobby = ({ attacker, opponent }: FightProps) => {
   const context = useAppContext();
   const [texts, setTexts] = useState<string[]>([]);
   const [round, setRound] = useState(1);
-  const [endgame, setEndgame] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const runRound = () => {
     alert(`Round ${round} :`);
+    setLoading(true);
 
     runTurn({ attacker, opponent })
       .then((report) => runTurn(report).catch((report) => runEnd(report)))
       .catch((report) => runEnd(report))
-      .then(() => setRound(round + 1));
+      .then(() => {
+        setRound(round + 1);
+        setLoading(false);
+      });
   };
 
   const runTurn = (report: ReportProps) =>
@@ -48,7 +52,7 @@ const Lobby = ({ attacker, opponent }: FightProps) => {
         health: healing(opponent.health),
       });
 
-      setEndgame(true);
+      setRound(0);
     });
 
   const attacking = ({ damage, ...report }: ReportProps) =>
@@ -155,12 +159,12 @@ const Lobby = ({ attacker, opponent }: FightProps) => {
         <FighterItem fighter={opponent} />
       </div>
       <Modal texts={texts} />
-      {endgame ? (
+      {round === 0 ? (
         <button className="mx-4" onClick={back}>
           Retour
         </button>
       ) : (
-        <button className="mx-4" onClick={runRound}>
+        <button className="mx-4" onClick={runRound} disabled={loading}>
           Attaquer
         </button>
       )}
