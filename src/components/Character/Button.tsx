@@ -23,7 +23,7 @@ const Button = ({ label, icon, disabled, onClick }: ButtonProps) => {
             aria-hidden="true"
           />
         )}
-        {label}
+        <span className="truncate">{label}</span>
       </button>
     </div>
   );

@@ -9,7 +9,9 @@ const CharacterList = () => {
 
   return (
     <div>
-      <h1 className="mb-6">Personnages</h1>
+      <h1 className="text-lg leading-6 font-medium text-gray-900 mb-6">
+        Personnages
+      </h1>
       <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 mb-6">
         {context.characters.length > 0 &&
           context.characters.map((character: CharacterProps) => (
