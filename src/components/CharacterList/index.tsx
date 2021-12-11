@@ -1,3 +1,4 @@
+import { Config, names, uniqueNamesGenerator } from "unique-names-generator";
 import { useAppContext } from "../../app/AppContext";
 import Button from "../Button";
 import Character from "./Character";
@@ -5,10 +6,12 @@ import { CharacterProps } from "./types";
 
 const CharacterList = () => {
   const context = useAppContext();
+  const config: Config = {
+    dictionaries: [names],
+    style: "capital",
+  };
   const add = () => {
-    context.addCharacter({
-      name: `Bob${context.characters[context.characters.length - 1].id + 1}`,
-    });
+    context.addCharacter({ name: uniqueNamesGenerator(config) });
   };
 
   return (
@@ -22,7 +25,7 @@ const CharacterList = () => {
             <Character key={character.id} {...character} />
           ))}
       </ul>
-      <Button label="Ajouter" icon="user-plus" onClick={add} />
+      <Button label="Engager" icon="user-plus" onClick={add} />
     </div>
   );
 };
