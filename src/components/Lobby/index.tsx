@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useAppContext } from "../../app/AppContext";
+import { ActionIcons as icons } from "../../app/icons";
 import { healing, hurting, rollADie } from "../../app/utils";
 import Button from "../Button";
 import FighterItem from "./FighterItem";
@@ -156,13 +157,13 @@ const Lobby = ({ attacker, opponent }: FightProps) => {
           <div className="flex gap-2">
             <Button
               label="Attaquer"
-              icon="fist-raised"
+              icon={icons.runRound}
               onClick={runRound}
               disabled={loading}
             />
             <Button
               label="Fuir"
-              icon="running"
+              icon={icons.flee}
               onClick={back}
               disabled={loading}
             />

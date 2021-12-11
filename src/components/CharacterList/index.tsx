@@ -1,5 +1,6 @@
 import { Config, names, uniqueNamesGenerator } from "unique-names-generator";
 import { useAppContext } from "../../app/AppContext";
+import { ActionIcons as icons } from "../../app/icons";
 import Button from "../Button";
 import Character from "./Character";
 import { CharacterProps } from "./types";
@@ -25,7 +26,7 @@ const CharacterList = () => {
             <Character key={character.id} {...character} />
           ))}
       </ul>
-      <Button label="Engager" icon="user-plus" onClick={add} />
+      <Button label="Engager" icon={icons.add} onClick={add} />
     </div>
   );
 };

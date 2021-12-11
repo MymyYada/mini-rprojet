@@ -1,24 +1,27 @@
-import Card from "../Card";
+import { StatIcons as icons } from "../../app/icons";
+import Card, { Body, Header } from "../Card";
 import Stat from "../Card/Stat";
 import { CharacterProps } from "../CharacterList/types";
 
 const FighterItem = ({ fighter }: { fighter: CharacterProps }) => {
   return (
-    <Card {...fighter}>
-      <div className="-mt-px flex divide-x divide-gray-200">
-        <div className="w-full flex flex-col px-6 py-4">
-          <Stat icon="level-up-alt" label={`Exp. ${fighter.skill_pts}`} />
-          <Stat
-            icon="heart"
-            label={`Santé: ${fighter.health.value}${
-              fighter.health.max_value ? `/${fighter.health.max_value}` : ``
-            }`}
-          />
-          <Stat icon="fist-raised" label={`Attaque: ${fighter.attack.value}`} />
-          <Stat icon="shield-alt" label={`Défense: ${fighter.defense.value}`} />
-          <Stat icon="fire" label={`Magie: ${fighter.magik.value}`} />
-        </div>
-      </div>
+    <Card>
+      <Header {...fighter} />
+      <Body>
+        <Stat icon={icons.skill_pts} label={`Exp. ${fighter.skill_pts}`} />
+        <Stat
+          icon={icons.health}
+          label={`Santé: ${fighter.health.value}${
+            fighter.health.max_value ? `/${fighter.health.max_value}` : ``
+          }`}
+        />
+        <Stat icon={icons.attack} label={`Attaque: ${fighter.attack.value}`} />
+        <Stat
+          icon={icons.defense}
+          label={`Défense: ${fighter.defense.value}`}
+        />
+        <Stat icon={icons.magik} label={`Magie: ${fighter.magik.value}`} />
+      </Body>
     </Card>
   );
 };
