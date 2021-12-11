@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useAppContext } from "../../app/AppContext";
+import { Icons as icons } from "../../app/icons";
 import { findOpponent } from "../../app/utils";
-import Card from "../Card";
+import Card, { Body, Footer, Header } from "../Card";
 import Button from "../Card/Button";
 import Stat from "../Card/Stat";
 import CharacterStat from "./CharacterStat";
@@ -33,44 +34,46 @@ const Character = ({ ...characterProps }: CharacterProps) => {
   const remove = () => context.removeCharacter(character.id);
 
   return (
-    <Card {...character}>
-      <div className="-mt-px flex divide-x divide-gray-200">
-        <div className="w-full flex flex-col px-6 py-4">
-          <Stat icon="level-up-alt" label={`Exp. ${character.skill_pts}`} />
-          <CharacterStat
-            label="Santé"
-            icon="heart"
-            stat={character.health}
-            changeCallback={changeCallback}
-          />
-          <CharacterStat
-            label="Attaque"
-            icon="fist-raised"
-            stat={character.attack}
-            changeCallback={changeCallback}
-          />
-          <CharacterStat
-            label="Défense"
-            icon="shield-alt"
-            stat={character.defense}
-            changeCallback={changeCallback}
-          />
-          <CharacterStat
-            label="Magie"
-            icon="fire"
-            stat={character.magik}
-            changeCallback={changeCallback}
-          />
-        </div>
-      </div>
+    <Card>
+      <Header {...character} />
+      <Body>
+        <Stat
+          icon={icons.stat.skill_pts}
+          label={`Exp. ${character.skill_pts}`}
+        />
+        <CharacterStat
+          label="Santé"
+          icon={icons.stat.health}
+          stat={character.health}
+          changeCallback={changeCallback}
+        />
+        <CharacterStat
+          label="Attaque"
+          icon={icons.stat.attack}
+          stat={character.attack}
+          changeCallback={changeCallback}
+        />
+        <CharacterStat
+          label="Défense"
+          icon={icons.stat.defense}
+          stat={character.defense}
+          changeCallback={changeCallback}
+        />
+        <CharacterStat
+          label="Magie"
+          icon={icons.stat.magik}
+          stat={character.magik}
+          changeCallback={changeCallback}
+        />
+      </Body>
 
-      <div className="-mt-px flex divide-x divide-gray-200">
+      <Footer>
         {character.skill_pts !== characterTemp.skill_pts && (
-          <Button label="Valider" icon="check" onClick={update} />
+          <Button label="Valider" icon={icons.action.update} onClick={update} />
         )}
-        <Button label="Combattre" icon="fist-raised" onClick={fight} />
-        <Button label="Supprimer" icon="trash-alt" onClick={remove} />
-      </div>
+        <Button label="Combattre" icon={icons.action.fight} onClick={fight} />
+        <Button label="Supprimer" icon={icons.action.remove} onClick={remove} />
+      </Footer>
     </Card>
   );
 };
