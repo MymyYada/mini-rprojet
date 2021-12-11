@@ -7,6 +7,7 @@ import {
   faLevelUpAlt,
   faMinus,
   faPlus,
+  faRunning,
   faShieldAlt,
   faTrashAlt,
   faUserPlus,
@@ -23,7 +24,8 @@ library.add(
   faHeart,
   faFire,
   faShieldAlt,
-  faFistRaised
+  faFistRaised,
+  faRunning
 );
 
 export default FontAwesomeIcon;

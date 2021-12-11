@@ -153,12 +153,20 @@ const Lobby = ({ attacker, opponent }: FightProps) => {
         {round === 0 ? (
           <Button label="Retour" onClick={back} />
         ) : (
-          <Button
-            label="Attaquer"
-            icon="fist-raised"
-            onClick={runRound}
-            disabled={loading}
-          />
+          <div className="flex gap-2">
+            <Button
+              label="Attaquer"
+              icon="fist-raised"
+              onClick={runRound}
+              disabled={loading}
+            />
+            <Button
+              label="Fuir"
+              icon="running"
+              onClick={back}
+              disabled={loading}
+            />
+          </div>
         )}
       </div>
       <Modal texts={texts} />
