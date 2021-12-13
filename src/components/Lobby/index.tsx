@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useAppContext } from "../../app/AppContext";
 import { ActionIcons as icons } from "../../app/icons";
-import { healing, hurting, rollADie } from "../../app/utils";
+import { expUpdate, healing, hurting, rollADie } from "../../app/utils";
 import Button from "../Button";
-import FighterItem from "./FighterItem";
-import Modal from "./Modal";
+import Fighter from "./Fighter";
+import Journal from "./Journal";
 import { FightProps, ReportProps } from "./types";
 
 const Lobby = ({ attacker, opponent }: FightProps) => {
@@ -45,7 +45,7 @@ const Lobby = ({ attacker, opponent }: FightProps) => {
       context.updateCharacter({
         ...attacker,
         rank: attacker.rank + 1,
-        skill_pts: attacker.skill_pts + 1,
+        skill_pts: expUpdate(attacker.skill_pts, +1),
         health: healing(attacker.health),
       });
       context.updateCharacter({
@@ -148,8 +148,8 @@ const Lobby = ({ attacker, opponent }: FightProps) => {
     <div className="flex">
       <div>
         <ul className="grid grid-cols-1 gap-6 lg:grid-cols-2 mb-6">
-          <FighterItem fighter={attacker} />
-          <FighterItem fighter={opponent} />
+          <Fighter fighter={attacker} />
+          <Fighter fighter={opponent} />
         </ul>
         {round === 0 ? (
           <Button label="Retour" onClick={back} />
@@ -170,7 +170,7 @@ const Lobby = ({ attacker, opponent }: FightProps) => {
           </div>
         )}
       </div>
-      <Modal texts={texts} />
+      <Journal texts={texts} />
     </div>
   );
 };

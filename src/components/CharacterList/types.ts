@@ -1,10 +1,11 @@
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { DateTime } from "luxon";
 
 export type CharacterProps = {
   id: number;
   name: string;
   rank: number;
-  skill_pts: number;
+  skill_pts: StatProps;
   health: StatProps;
   attack: StatProps;
   defense: StatProps;
@@ -37,6 +38,7 @@ export type CharacterResponse = {
 };
 
 export enum StatType {
+  skill_pts = "skill_pts",
   health = "health",
   attack = "attack",
   defense = "defense",
@@ -47,6 +49,8 @@ export type StatProps = {
   value: number;
   max_value?: number;
   type: StatType;
+  icon: IconProp;
+  label: string;
 };
 
 export type ChangeProps = {

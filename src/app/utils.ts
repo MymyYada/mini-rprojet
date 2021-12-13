@@ -55,3 +55,10 @@ export const hurting = (health: StatProps, damage: number) => {
     value: Math.max(0, health.value - damage),
   };
 };
+
+export const expUpdate = (skill_pts: StatProps, alt: number) => {
+  return {
+    ...skill_pts,
+    value: skill_pts.value + alt,
+  };
+};

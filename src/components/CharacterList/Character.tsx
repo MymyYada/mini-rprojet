@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { useAppContext } from "../../app/AppContext";
-import { Icons as icons } from "../../app/icons";
-import { findOpponent } from "../../app/utils";
+import icons from "../../app/icons";
+import { expUpdate, findOpponent } from "../../app/utils";
 import Card, { Body, Footer, Header } from "../Card";
 import Button from "../Card/Button";
-import Stat from "../Card/Stat";
 import CharacterStat from "./CharacterStat";
 import { ChangeProps, CharacterProps } from "./types";
 
@@ -12,11 +11,15 @@ const Character = ({ ...characterProps }: CharacterProps) => {
   const context = useAppContext();
   const [character, setCharacter] = useState({ ...characterProps });
   const [characterTemp, setCharacterTemp] = useState({ ...characterProps });
+  const editable = !(
+    character.skill_pts.value === 0 &&
+    character.skill_pts.value === characterTemp.skill_pts.value
+  );
   const changeCallback = ({ newStat, cost }: ChangeProps) => {
-    const newSkillPts = character.skill_pts - cost;
+    const newSkillPts = expUpdate(character.skill_pts, -cost);
     const minStat = characterTemp[newStat.type];
 
-    if (newSkillPts >= 0 && newStat.value >= minStat.value)
+    if (newSkillPts.value >= 0 && newStat.value >= minStat.value)
       setCharacter({
         ...character,
         skill_pts: newSkillPts,
@@ -36,39 +39,31 @@ const Character = ({ ...characterProps }: CharacterProps) => {
   return (
     <Card>
       <Header {...character} />
-      <Body>
-        <Stat
-          icon={icons.stat.skill_pts}
-          label={`Exp. ${character.skill_pts}`}
-        />
+      <Body skill_pts={character.skill_pts}>
         <CharacterStat
-          label="Santé"
-          icon={icons.stat.health}
           stat={character.health}
+          editable={editable}
           changeCallback={changeCallback}
         />
         <CharacterStat
-          label="Attaque"
-          icon={icons.stat.attack}
           stat={character.attack}
+          editable={editable}
           changeCallback={changeCallback}
         />
         <CharacterStat
-          label="Défense"
-          icon={icons.stat.defense}
           stat={character.defense}
+          editable={editable}
           changeCallback={changeCallback}
         />
         <CharacterStat
-          label="Magie"
-          icon={icons.stat.magik}
           stat={character.magik}
+          editable={editable}
           changeCallback={changeCallback}
         />
       </Body>
 
       <Footer>
-        {character.skill_pts !== characterTemp.skill_pts && (
+        {character.skill_pts.value !== characterTemp.skill_pts.value && (
           <Button label="Valider" icon={icons.action.update} onClick={update} />
         )}
         <Button label="Combattre" icon={icons.action.fight} onClick={fight} />
