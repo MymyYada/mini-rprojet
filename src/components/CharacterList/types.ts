@@ -49,6 +49,7 @@ export type StatProps = {
   max_value?: number;
   type: StatType;
   icon: IconProp;
+  label: string;
 };
 
 export type ChangeProps = {

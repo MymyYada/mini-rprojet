@@ -7,10 +7,10 @@ const Fighter = ({ fighter }: { fighter: CharacterProps }) => {
     <Card>
       <Header {...fighter} />
       <Body skill_pts={fighter.skill_pts}>
-        <Stat label="Santé:" stat={fighter.health} />
-        <Stat label="Attaque:" stat={fighter.attack} />
-        <Stat label="Défense:" stat={fighter.defense} />
-        <Stat label="Magie:" stat={fighter.magik} />
+        <Stat stat={fighter.health} />
+        <Stat stat={fighter.attack} />
+        <Stat stat={fighter.defense} />
+        <Stat stat={fighter.magik} />
       </Body>
     </Card>
   );

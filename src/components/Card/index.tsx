@@ -39,7 +39,7 @@ export const Body = ({
   return (
     <div className="-mt-px flex divide-x divide-gray-200">
       <div className="w-full flex flex-col px-6 py-4">
-        {/* <Stat label={`Exp. ${skill_pts}`} icon={icons.stat.skill_pts} /> */}
+        {/* <Stat stat={skill_pts} /> */}
         {children}
       </div>
     </div>

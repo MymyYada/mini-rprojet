@@ -5,12 +5,11 @@ import Stat from "../Card/Stat";
 import { ChangeProps, StatProps } from "./types";
 
 type Props = {
-  label: string;
   stat: StatProps;
   changeCallback: (props: ChangeProps) => void;
 };
 
-const CharacterStat = ({ label, stat, changeCallback }: Props) => {
+const CharacterStat = ({ stat, changeCallback }: Props) => {
   const changeStat = (alt: number) => {
     changeCallback({
       newStat: {
@@ -24,7 +23,7 @@ const CharacterStat = ({ label, stat, changeCallback }: Props) => {
 
   return (
     <div className="flex flex-row items-center">
-      <Stat label={label} stat={stat} />
+      <Stat stat={stat} />
       <Button icon={icons.increase} onClick={() => changeStat(+1)} />
       <Button icon={icons.decrease} onClick={() => changeStat(-1)} />
     </div>

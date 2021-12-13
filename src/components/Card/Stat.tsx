@@ -1,13 +1,10 @@
 import { StatProps } from "../CharacterList/types";
 import Icon from "../Icon";
 
-type Props = {
-  label: string;
-  stat: StatProps;
-};
-
-const Stat = ({ label, stat }: Props) => {
-  label = `${label} ${stat.value}${stat.max_value ? `/${stat.max_value}` : ``}`;
+const Stat = ({ stat }: { stat: StatProps }) => {
+  const label = `${stat.label} ${stat.value}${
+    stat.max_value ? `/${stat.max_value}` : ``
+  }`;
 
   return (
     <div className="flex flex-1 text-gray-500 text-xs my-1 items-center">
