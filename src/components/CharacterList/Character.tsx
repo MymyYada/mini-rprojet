@@ -4,7 +4,7 @@ import icons from "../../app/icons";
 import { expUpdate, findOpponent } from "../../app/utils";
 import Card, { Body, Footer, Header } from "../Card";
 import Button from "../Card/Button";
-import CharacterStat from "./CharacterStat";
+import Stat from "../Card/Stat";
 import { ChangeProps, CharacterProps } from "./types";
 
 const Character = ({ ...characterProps }: CharacterProps) => {
@@ -40,22 +40,22 @@ const Character = ({ ...characterProps }: CharacterProps) => {
     <Card>
       <Header {...character} />
       <Body skill_pts={character.skill_pts}>
-        <CharacterStat
+        <Stat
           stat={character.health}
           editable={editable}
           changeCallback={changeCallback}
         />
-        <CharacterStat
+        <Stat
           stat={character.attack}
           editable={editable}
           changeCallback={changeCallback}
         />
-        <CharacterStat
+        <Stat
           stat={character.defense}
           editable={editable}
           changeCallback={changeCallback}
         />
-        <CharacterStat
+        <Stat
           stat={character.magik}
           editable={editable}
           changeCallback={changeCallback}
