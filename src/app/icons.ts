@@ -17,7 +17,9 @@ export enum ActionIcons {
   flee = "running",
 }
 
-export const Icons = {
+const Icons = {
   stat: StatIcons,
   action: ActionIcons,
 };
+
+export default Icons;

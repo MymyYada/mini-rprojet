@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useAppContext } from "../../app/AppContext";
-import { Icons as icons } from "../../app/icons";
+import icons from "../../app/icons";
 import { findOpponent } from "../../app/utils";
 import Card, { Body, Footer, Header } from "../Card";
 import Button from "../Card/Button";
