@@ -23,7 +23,7 @@ const CharacterStat = ({ stat, editable, changeCallback }: Props) => {
   };
 
   return (
-    <div className="flex flex-row items-center">
+    <div className="flex">
       <Stat stat={stat} />
       {editable && (
         <div>
