@@ -1,7 +1,9 @@
 import { DateTime } from "luxon";
 import React from "react";
+import icons from "../../app/icons";
 import Image from "../../assets/character.png";
 import { CharacterProps } from "../CharacterList/types";
+import Stat from "./Stat";
 
 export const Header = ({
   name,
@@ -33,11 +35,15 @@ export const Header = ({
 };
 
 export const Body = ({
+  skill_pts,
   children,
-}: React.PropsWithChildren<React.ReactNode>) => {
+}: React.PropsWithChildren<{ skill_pts: CharacterProps["skill_pts"] }>) => {
   return (
     <div className="-mt-px flex divide-x divide-gray-200">
-      <div className="w-full flex flex-col px-6 py-4">{children}</div>
+      <div className="w-full flex flex-col px-6 py-4">
+        <Stat label={`Exp. ${skill_pts}`} icon={icons.stat.skill_pts} />
+        {children}
+      </div>
     </div>
   );
 };

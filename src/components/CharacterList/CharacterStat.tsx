@@ -24,13 +24,9 @@ const CharacterStat = ({ label, icon, stat, changeCallback }: Props) => {
     });
   };
 
-  label = `${label}: ${stat.value}${
-    stat.max_value ? `/${stat.max_value}` : ``
-  }`;
-
   return (
     <div className="flex flex-row items-center">
-      <Stat icon={icon} label={label} />
+      <Stat label={label} icon={icon} stat={stat} />
       <Button icon={icons.increase} onClick={() => changeStat(+1)} />
       <Button icon={icons.decrease} onClick={() => changeStat(-1)} />
     </div>

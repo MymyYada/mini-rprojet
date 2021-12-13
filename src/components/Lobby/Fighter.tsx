@@ -7,20 +7,11 @@ const Fighter = ({ fighter }: { fighter: CharacterProps }) => {
   return (
     <Card>
       <Header {...fighter} />
-      <Body>
-        <Stat icon={icons.skill_pts} label={`Exp. ${fighter.skill_pts}`} />
-        <Stat
-          icon={icons.health}
-          label={`Santé: ${fighter.health.value}${
-            fighter.health.max_value ? `/${fighter.health.max_value}` : ``
-          }`}
-        />
-        <Stat icon={icons.attack} label={`Attaque: ${fighter.attack.value}`} />
-        <Stat
-          icon={icons.defense}
-          label={`Défense: ${fighter.defense.value}`}
-        />
-        <Stat icon={icons.magik} label={`Magie: ${fighter.magik.value}`} />
+      <Body skill_pts={fighter.skill_pts}>
+        <Stat label="Santé" icon={icons.health} stat={fighter.health} />
+        <Stat label="Attaque" icon={icons.attack} stat={fighter.attack} />
+        <Stat label="Défense" icon={icons.defense} stat={fighter.defense} />
+        <Stat label="Magie" icon={icons.magik} stat={fighter.magik} />
       </Body>
     </Card>
   );

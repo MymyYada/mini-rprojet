@@ -4,7 +4,6 @@ import icons from "../../app/icons";
 import { findOpponent } from "../../app/utils";
 import Card, { Body, Footer, Header } from "../Card";
 import Button from "../Card/Button";
-import Stat from "../Card/Stat";
 import CharacterStat from "./CharacterStat";
 import { ChangeProps, CharacterProps } from "./types";
 
@@ -36,11 +35,7 @@ const Character = ({ ...characterProps }: CharacterProps) => {
   return (
     <Card>
       <Header {...character} />
-      <Body>
-        <Stat
-          icon={icons.stat.skill_pts}
-          label={`Exp. ${character.skill_pts}`}
-        />
+      <Body skill_pts={character.skill_pts}>
         <CharacterStat
           label="Santé"
           icon={icons.stat.health}
