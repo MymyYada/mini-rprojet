@@ -1,3 +1,4 @@
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { DateTime } from "luxon";
 
 export type CharacterProps = {
@@ -47,6 +48,7 @@ export type StatProps = {
   value: number;
   max_value?: number;
   type: StatType;
+  icon: IconProp;
 };
 
 export type ChangeProps = {

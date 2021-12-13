@@ -6,6 +6,7 @@ import React, {
   useMemo,
   useState,
 } from "react";
+import { StatIcons as icons } from "../app/icons";
 import {
   CharacterProps,
   CharacterRequest,
@@ -48,7 +49,7 @@ const AppContext = React.createContext<AppContextType>({
 });
 
 export const AppProvider: React.FunctionComponent = ({ children }) => {
-  const [characters, setCharacters] = useState([]);
+  const [characters, setCharacters] = useState<CharacterProps[]>([]);
   const [fighters, setFighters] = useState<CharacterProps[]>([]);
   const getAllCharacters = useCallback(async () => {
     fetch("/characters/all")
@@ -68,10 +69,23 @@ export const AppProvider: React.FunctionComponent = ({ children }) => {
                 value: stats.health,
                 max_value: stats.max_health,
                 type: StatType.health,
+                icon: icons.health,
               },
-              attack: { value: stats.attack, type: StatType.attack },
-              defense: { value: stats.defense, type: StatType.defense },
-              magik: { value: stats.magik, type: StatType.magik },
+              attack: {
+                value: stats.attack,
+                type: StatType.attack,
+                icon: icons.attack,
+              },
+              defense: {
+                value: stats.defense,
+                type: StatType.defense,
+                icon: icons.defense,
+              },
+              magik: {
+                value: stats.magik,
+                type: StatType.magik,
+                icon: icons.magik,
+              },
               available: true,
               lastFight: DateTime.now(),
             };

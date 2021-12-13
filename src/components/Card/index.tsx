@@ -1,9 +1,7 @@
 import { DateTime } from "luxon";
 import React from "react";
-import icons from "../../app/icons";
 import Image from "../../assets/character.png";
 import { CharacterProps } from "../CharacterList/types";
-import Stat from "./Stat";
 
 export const Header = ({
   name,
@@ -41,7 +39,7 @@ export const Body = ({
   return (
     <div className="-mt-px flex divide-x divide-gray-200">
       <div className="w-full flex flex-col px-6 py-4">
-        <Stat label={`Exp. ${skill_pts}`} icon={icons.stat.skill_pts} />
+        {/* <Stat label={`Exp. ${skill_pts}`} icon={icons.stat.skill_pts} /> */}
         {children}
       </div>
     </div>

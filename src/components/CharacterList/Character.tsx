@@ -37,26 +37,22 @@ const Character = ({ ...characterProps }: CharacterProps) => {
       <Header {...character} />
       <Body skill_pts={character.skill_pts}>
         <CharacterStat
-          label="Santé"
-          icon={icons.stat.health}
+          label="Santé:"
           stat={character.health}
           changeCallback={changeCallback}
         />
         <CharacterStat
-          label="Attaque"
-          icon={icons.stat.attack}
+          label="Attaque:"
           stat={character.attack}
           changeCallback={changeCallback}
         />
         <CharacterStat
-          label="Défense"
-          icon={icons.stat.defense}
+          label="Défense:"
           stat={character.defense}
           changeCallback={changeCallback}
         />
         <CharacterStat
-          label="Magie"
-          icon={icons.stat.magik}
+          label="Magie:"
           stat={character.magik}
           changeCallback={changeCallback}
         />

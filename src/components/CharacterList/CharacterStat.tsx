@@ -1,4 +1,3 @@
-import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { ActionIcons as icons } from "../../app/icons";
 import { costCalc } from "../../app/utils";
 import Button from "../ButtonStat";
@@ -7,12 +6,11 @@ import { ChangeProps, StatProps } from "./types";
 
 type Props = {
   label: string;
-  icon: IconProp;
   stat: StatProps;
   changeCallback: (props: ChangeProps) => void;
 };
 
-const CharacterStat = ({ label, icon, stat, changeCallback }: Props) => {
+const CharacterStat = ({ label, stat, changeCallback }: Props) => {
   const changeStat = (alt: number) => {
     changeCallback({
       newStat: {
@@ -26,7 +24,7 @@ const CharacterStat = ({ label, icon, stat, changeCallback }: Props) => {
 
   return (
     <div className="flex flex-row items-center">
-      <Stat label={label} icon={icon} stat={stat} />
+      <Stat label={label} stat={stat} />
       <Button icon={icons.increase} onClick={() => changeStat(+1)} />
       <Button icon={icons.decrease} onClick={() => changeStat(-1)} />
     </div>
