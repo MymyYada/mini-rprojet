@@ -36,7 +36,7 @@ const Stat = ({ stat, editable, changeCallback }: Props) => {
       </div>
 
       {editable && changeCallback && (
-        <div>
+        <div className="flex items-center">
           <Button icon={icons.increase} onClick={() => changeStat(+1)} />
           <Button icon={icons.decrease} onClick={() => changeStat(-1)} />
         </div>
