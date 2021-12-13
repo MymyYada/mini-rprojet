@@ -4,7 +4,7 @@ import { ActionIcons as icons } from "../../app/icons";
 import { healing, hurting, rollADie } from "../../app/utils";
 import Button from "../Button";
 import FighterItem from "./FighterItem";
-import Modal from "./Modal";
+import Journal from "./Journal";
 import { FightProps, ReportProps } from "./types";
 
 const Lobby = ({ attacker, opponent }: FightProps) => {
@@ -170,7 +170,7 @@ const Lobby = ({ attacker, opponent }: FightProps) => {
           </div>
         )}
       </div>
-      <Modal texts={texts} />
+      <Journal texts={texts} />
     </div>
   );
 };

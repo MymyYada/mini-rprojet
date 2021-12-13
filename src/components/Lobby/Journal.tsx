@@ -1,4 +1,4 @@
-const Modal = ({ texts }: { texts: string[] }) => {
+const Journal = ({ texts }: { texts: string[] }) => {
   return (
     <div className="flex flex-col mx-6 w-64">
       {texts.map((text: string, key: number) => (
@@ -13,4 +13,4 @@ const Modal = ({ texts }: { texts: string[] }) => {
   );
 };
 
-export default Modal;
+export default Journal;
