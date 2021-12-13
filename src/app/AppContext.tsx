@@ -58,43 +58,46 @@ export const AppProvider: React.FunctionComponent = ({ children }) => {
         throw response;
       })
       .then((data) => {
-        data = data.map(
-          ({ id, name, rank, skill_pts, ...stats }: CharacterResponse) => {
-            return {
-              id,
-              name,
-              rank,
-              skill_pts,
-              health: {
-                value: stats.health,
-                max_value: stats.max_health,
-                type: StatType.health,
-                icon: icons.health,
-                label: "Santé:",
-              },
-              attack: {
-                value: stats.attack,
-                type: StatType.attack,
-                icon: icons.attack,
-                label: "Attaque:",
-              },
-              defense: {
-                value: stats.defense,
-                type: StatType.defense,
-                icon: icons.defense,
-                label: "Défense:",
-              },
-              magik: {
-                value: stats.magik,
-                type: StatType.magik,
-                icon: icons.magik,
-                label: "Magie:",
-              },
-              available: true,
-              lastFight: DateTime.now(),
-            };
-          }
-        );
+        data = data.map(({ id, name, rank, ...stats }: CharacterResponse) => {
+          return {
+            id,
+            name,
+            rank,
+            skill_pts: {
+              value: stats.skill_pts,
+              type: StatType.skill_pts,
+              icon: icons.skill_pts,
+              label: "Exp.",
+            },
+            health: {
+              value: stats.health,
+              max_value: stats.max_health,
+              type: StatType.health,
+              icon: icons.health,
+              label: "Santé:",
+            },
+            attack: {
+              value: stats.attack,
+              type: StatType.attack,
+              icon: icons.attack,
+              label: "Attaque:",
+            },
+            defense: {
+              value: stats.defense,
+              type: StatType.defense,
+              icon: icons.defense,
+              label: "Défense:",
+            },
+            magik: {
+              value: stats.magik,
+              type: StatType.magik,
+              icon: icons.magik,
+              label: "Magie:",
+            },
+            available: true,
+            lastFight: DateTime.now(),
+          };
+        });
         setCharacters(data);
       })
       .catch((error) =>
@@ -140,6 +143,7 @@ export const AppProvider: React.FunctionComponent = ({ children }) => {
         },
         body: JSON.stringify({
           ...character,
+          skill_pts: character.skill_pts.value,
           health: character.health.value,
           max_health: character.health.max_value,
           attack: character.attack.value,

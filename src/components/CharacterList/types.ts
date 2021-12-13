@@ -5,7 +5,7 @@ export type CharacterProps = {
   id: number;
   name: string;
   rank: number;
-  skill_pts: number;
+  skill_pts: StatProps;
   health: StatProps;
   attack: StatProps;
   defense: StatProps;
@@ -38,6 +38,7 @@ export type CharacterResponse = {
 };
 
 export enum StatType {
+  skill_pts = "skill_pts",
   health = "health",
   attack = "attack",
   defense = "defense",

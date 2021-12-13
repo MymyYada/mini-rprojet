@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAppContext } from "../../app/AppContext";
 import { ActionIcons as icons } from "../../app/icons";
-import { healing, hurting, rollADie } from "../../app/utils";
+import { expUpdate, healing, hurting, rollADie } from "../../app/utils";
 import Button from "../Button";
 import Fighter from "./Fighter";
 import Journal from "./Journal";
@@ -45,7 +45,7 @@ const Lobby = ({ attacker, opponent }: FightProps) => {
       context.updateCharacter({
         ...attacker,
         rank: attacker.rank + 1,
-        skill_pts: attacker.skill_pts + 1,
+        skill_pts: expUpdate(attacker.skill_pts, +1),
         health: healing(attacker.health),
       });
       context.updateCharacter({

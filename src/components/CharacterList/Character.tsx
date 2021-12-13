@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAppContext } from "../../app/AppContext";
 import icons from "../../app/icons";
-import { findOpponent } from "../../app/utils";
+import { expUpdate, findOpponent } from "../../app/utils";
 import Card, { Body, Footer, Header } from "../Card";
 import Button from "../Card/Button";
 import CharacterStat from "./CharacterStat";
@@ -12,10 +12,10 @@ const Character = ({ ...characterProps }: CharacterProps) => {
   const [character, setCharacter] = useState({ ...characterProps });
   const [characterTemp, setCharacterTemp] = useState({ ...characterProps });
   const changeCallback = ({ newStat, cost }: ChangeProps) => {
-    const newSkillPts = character.skill_pts - cost;
+    const newSkillPts = expUpdate(character.skill_pts, -cost);
     const minStat = characterTemp[newStat.type];
 
-    if (newSkillPts >= 0 && newStat.value >= minStat.value)
+    if (newSkillPts.value >= 0 && newStat.value >= minStat.value)
       setCharacter({
         ...character,
         skill_pts: newSkillPts,
@@ -52,7 +52,7 @@ const Character = ({ ...characterProps }: CharacterProps) => {
       </Body>
 
       <Footer>
-        {character.skill_pts !== characterTemp.skill_pts && (
+        {character.skill_pts.value !== characterTemp.skill_pts.value && (
           <Button label="Valider" icon={icons.action.update} onClick={update} />
         )}
         <Button label="Combattre" icon={icons.action.fight} onClick={fight} />
