@@ -1,5 +1,5 @@
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import Icon from "../Icon";
+import Icon from "../../Icon";
 
 type ButtonProps = {
   icon: IconProp;
