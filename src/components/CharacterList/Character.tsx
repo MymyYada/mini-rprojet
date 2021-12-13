@@ -11,6 +11,10 @@ const Character = ({ ...characterProps }: CharacterProps) => {
   const context = useAppContext();
   const [character, setCharacter] = useState({ ...characterProps });
   const [characterTemp, setCharacterTemp] = useState({ ...characterProps });
+  const editable = !(
+    character.skill_pts.value === 0 &&
+    character.skill_pts.value === characterTemp.skill_pts.value
+  );
   const changeCallback = ({ newStat, cost }: ChangeProps) => {
     const newSkillPts = expUpdate(character.skill_pts, -cost);
     const minStat = characterTemp[newStat.type];
@@ -38,17 +42,24 @@ const Character = ({ ...characterProps }: CharacterProps) => {
       <Body skill_pts={character.skill_pts}>
         <CharacterStat
           stat={character.health}
+          editable={editable}
           changeCallback={changeCallback}
         />
         <CharacterStat
           stat={character.attack}
+          editable={editable}
           changeCallback={changeCallback}
         />
         <CharacterStat
           stat={character.defense}
+          editable={editable}
           changeCallback={changeCallback}
         />
-        <CharacterStat stat={character.magik} changeCallback={changeCallback} />
+        <CharacterStat
+          stat={character.magik}
+          editable={editable}
+          changeCallback={changeCallback}
+        />
       </Body>
 
       <Footer>
