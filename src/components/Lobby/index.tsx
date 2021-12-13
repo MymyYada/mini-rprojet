@@ -3,7 +3,7 @@ import { useAppContext } from "../../app/AppContext";
 import { ActionIcons as icons } from "../../app/icons";
 import { healing, hurting, rollADie } from "../../app/utils";
 import Button from "../Button";
-import FighterItem from "./FighterItem";
+import Fighter from "./Fighter";
 import Journal from "./Journal";
 import { FightProps, ReportProps } from "./types";
 
@@ -148,8 +148,8 @@ const Lobby = ({ attacker, opponent }: FightProps) => {
     <div className="flex">
       <div>
         <ul className="grid grid-cols-1 gap-6 lg:grid-cols-2 mb-6">
-          <FighterItem fighter={attacker} />
-          <FighterItem fighter={opponent} />
+          <Fighter fighter={attacker} />
+          <Fighter fighter={opponent} />
         </ul>
         {round === 0 ? (
           <Button label="Retour" onClick={back} />

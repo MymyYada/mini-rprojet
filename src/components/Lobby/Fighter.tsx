@@ -3,7 +3,7 @@ import Card, { Body, Header } from "../Card";
 import Stat from "../Card/Stat";
 import { CharacterProps } from "../CharacterList/types";
 
-const FighterItem = ({ fighter }: { fighter: CharacterProps }) => {
+const Fighter = ({ fighter }: { fighter: CharacterProps }) => {
   return (
     <Card>
       <Header {...fighter} />
@@ -26,4 +26,4 @@ const FighterItem = ({ fighter }: { fighter: CharacterProps }) => {
   );
 };
 
-export default FighterItem;
+export default Fighter;
