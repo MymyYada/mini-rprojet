@@ -2,7 +2,7 @@ import Logo from "../../assets/logo.png";
 
 const Navbar = () => {
   return (
-    <div className="absolute top-0 right-0 left-0">
+    <div className="sticky top-0 right-0 left-0 z-10 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="flex justify-between items-center border-b border-gray-200 py-6 md:justify-start md:space-x-10">
           <div className="flex justify-start lg:w-0 lg:flex-1">
