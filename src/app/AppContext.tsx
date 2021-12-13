@@ -179,11 +179,9 @@ export const AppProvider: React.FunctionComponent = ({ children }) => {
   );
   const updateFighter = useCallback(
     (character: CharacterProps) => {
-      const newFighters = [...fighters];
       const id = fighters.findIndex((fighter) => fighter.id === character.id);
 
-      newFighters[id] = character;
-      setFighters(newFighters);
+      setFighters((fighters) => [...fighters, (fighters[id] = character)]);
     },
     [fighters]
   );
